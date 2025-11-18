@@ -3,10 +3,7 @@ repos:
       rev: v4.4.0
       hooks:
           - id: check-added-large-files
-          # - id: check-executables-have-shebangs
           - id: check-json
-          # - id: check-toml
-          # - id: check-xml
           - id: check-yaml
           - id: end-of-file-fixer
           - id: forbid-submodules
