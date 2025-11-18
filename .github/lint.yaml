@@ -1,6 +1,9 @@
 name: 🧹 Linter & Formatter & Check Imports
 
-on: push
+on:
+  push:
+    branches:
+      - "**"
 
 jobs:
   eslint:
