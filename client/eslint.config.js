@@ -1,46 +1,32 @@
-module.exports = {
-    root: true,
-    parser: '@typescript-eslint/parser',
-    parserOptions: {
-        ecmaVersion: 2020,
-        sourceType: 'module',
-        ecmaFeatures: {
-            jsx: true, 
+import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from 'typescript-eslint';
+import prettier from 'eslint-config-prettier';
+import prettierPlugin from 'eslint-plugin-prettier';
+
+export default tseslint.config(
+    { ignores: ['dist', 'node_modules/**', 'src/components/ui/**'] },
+    {
+        extends: [js.configs.recommended, ...tseslint.configs.recommended, prettier],
+        files: ['**/*.tsx'],
+        languageOptions: {
+            ecmaVersion: 2020,
+            globals: globals.browser,
         },
-        project: './tsconfig.json', // חשוב ל־TypeScript
-        tsconfigRootDir: __dirname,
-    },
-    plugins: [
-        '@typescript-eslint',
-        'react-hooks',
-        'react-refresh',
-        'prettier',
-    ],
-    extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:react/recommended',
-        'plugin:react-hooks/recommended',
-        'plugin:prettier/recommended',
-    ],
-    settings: {
-        react: {
-            version: 'detect',
+        plugins: {
+            'react-hooks': reactHooks,
+            'react-refresh': reactRefresh,
+            prettier: prettierPlugin,
         },
-    },
-    ignorePatterns: ['dist/', 'node_modules/', 'src/components/ui/'],
-    rules: {
-        '@typescript-eslint/array-type': ['error', { default: 'generic' }],
-        'no-console': 'warn',
-        'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
-        'prettier/prettier': 'error',
-        'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-    },
-    overrides: [
-        {
-            files: ['**/*.ts', '**/*.tsx'],
-            rules: {
-            },
+        rules: {
+            ...reactHooks.configs.recommended.rules,
+            'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+            'no-console': 'warn',
+            'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
+            '@typescript-eslint/array-type': ['error', { default: 'generic' }],
+            'prettier/prettier': 'error',
         },
-    ],
-};
+    }
+);
