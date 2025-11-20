@@ -36,5 +36,11 @@ describe('session API', () => {
       expect(api.post).toHaveBeenCalledWith('/session/:xyz/message', msg);
     });
   });
+  describe('deleteSession', () => {
+    it('should call api.delete with the correct URL', async () => {
+      await session.deleteSession("del123");
+      expect(api.delete).toHaveBeenCalledWith('/session/:del123/');
+    });
+  });
 
 });

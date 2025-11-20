@@ -10,7 +10,7 @@ export const session = {
   sendMessage: async (session_id: string, message: object) => {
     return api.post(`/session/:${session_id}/message`,message);
   },
-  delete : async (session_id: string)=>{
+  deleteSession : async (session_id: string)=>{
     return api.delete(`/session/:${session_id}/`)
 
   }
