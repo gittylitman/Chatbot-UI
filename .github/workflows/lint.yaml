@@ -28,4 +28,4 @@ jobs:
         run: npx prettier --check .
 
       - name: ✅ Run import order check
-        run: npm run check-imports
+        run: npm run format
