@@ -8,6 +8,7 @@ app = FastAPI()
 def current_time():
     return datetime.utcnow().isoformat() + "Z"
 
+
 def mock_session(user_id: str):
     return {
         "id": f"session_{uuid.uuid4().hex}",
@@ -15,6 +16,7 @@ def mock_session(user_id: str):
         "createdAt": current_time(),
         "updatedAt": current_time()
     }
+
 
 def mock_message(session_id: str, role: str, content: str, action=None, type=None):
     return {
@@ -34,19 +36,23 @@ def mock_message(session_id: str, role: str, content: str, action=None, type=Non
 def ping():
     return {"message": "pong"}
 
+
 @app.post("/session/{user_id}")
 def create_session(user_id: str):
     session = mock_session(user_id)
     return session
+
 
 @app.get("/session/{session_id}")
 def get_session(session_id: str):
     session = mock_session("mock")
     session["messages"] = [
         mock_message(session["id"], "user", "Hello, I need you"),
-        mock_message(session["id"], "agent", "This is a stub response from the agent", action="end", type="message")
+        mock_message(
+            session["id"], "agent", "This is a stub response from the agent", action="end", type="message")
     ]
     return session
+
 
 @app.post("/session/{session_id}/message")
 def send_message(session_id: str, message: dict):
@@ -56,14 +62,17 @@ def send_message(session_id: str, message: dict):
         "action": "end"
     }
 
+
 @app.get("/user/{user_id}/history")
 def user_history(user_id: str):
     session = mock_session(user_id)
     session["messages"] = [
         mock_message(session["id"], "user", "Hello, I need you"),
-        mock_message(session["id"], "agent", "This is a stub response from the agent", action="end", type="message")
+        mock_message(
+            session["id"], "agent", "This is a stub response from the agent", action="end", type="message")
     ]
-    return [session,session]
+    return [session, session]
+
 
 @app.delete("/session/{session_id}")
 def delete_session(session_id: str):
