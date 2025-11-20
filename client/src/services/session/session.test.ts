@@ -6,6 +6,7 @@ vi.mock('../axios/api', () => ({
   api: {
     post: vi.fn(),
     get: vi.fn(),
+    delete: vi.fn(),
   },
 }));
 
