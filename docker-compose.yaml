@@ -11,3 +11,13 @@ services:
       - /app/node_modules
     environment:
       NODE_ENV: development
+
+  mock-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "2000:2000"
+    restart: always
+
+
