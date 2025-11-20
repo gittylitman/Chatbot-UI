@@ -9,5 +9,4 @@ export const api = {
     axiosInstance.post<T>(url, data).then((response: AxiosResponse<T>) => response.data),
   delete: <T>(url: string): Promise<T> =>
     axiosInstance.delete<T>(url).then((response: AxiosResponse<T>) => response.data),
-  
 };

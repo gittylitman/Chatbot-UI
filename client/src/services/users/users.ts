@@ -5,6 +5,3 @@ export const users = {
     return api.get(`/user/:${user_id}/history`);
   },
 }
-
-
-
