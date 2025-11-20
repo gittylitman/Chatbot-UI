@@ -1,9 +1,6 @@
 name: 🧪 Run tests
 
-on:
-  push:
-    branches:
-      - "**"
+on: push
 
 jobs:
   test:
