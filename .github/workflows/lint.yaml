@@ -26,6 +26,6 @@ jobs:
 
       - name: 💅 Run Prettier check
         run: npx prettier --check .
-
+        
       - name: ✅ Run import order check
         run: npm run format
