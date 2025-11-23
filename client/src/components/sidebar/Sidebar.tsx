@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
+import Typography from '@mui/material/Typography';
 
 import Dot from '../../assets/ChevronDown.svg';
 import { SessionItem } from './types';
@@ -25,7 +25,7 @@ export default function Sidebar({ onToggle, sessions }: SidebarProps) {
             </Box>
 
             <Box className="flex-1 overflow-y-auto pr-[10px] mt-1">
-                {sessions.map((session) => (
+                {sessions.map(session => (
                     <SessionItemRow
                         key={session.id}
                         session={session}

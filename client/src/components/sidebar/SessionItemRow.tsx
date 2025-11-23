@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Tooltip, { tooltipClasses, TooltipProps } from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
+
 import DeleteIcon from '../../assets/Delete.svg';
 import { SessionItem } from './types';
 
@@ -55,7 +56,11 @@ export default function SessionItemRow({ session, isSelected, onClick }: Session
             <CustomTooltip
                 title={
                     <Box className="flex items-center gap-0 px-2 py-1 bg-[#C6DB5D] rounded-full h-[33px] justify-start">
-                        <img src={DeleteIcon} alt="Delete" style={{ width: 12, height: 13, display: 'block' }} />
+                        <img
+                            src={DeleteIcon}
+                            alt="Delete"
+                            style={{ width: 12, height: 13, display: 'block' }}
+                        />
                         <Typography className="text-[14px] font-normal text-[#002D49] leading-none whitespace-nowrap ml-0.5">
                             Delete
                         </Typography>
