@@ -1,4 +1,6 @@
-import { Box, IconButton, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 
@@ -22,39 +24,23 @@ const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
 export default function SidebarHeader({ onToggle }: { onToggle: () => void }) {
     return (
         <>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mb: 2 }}>
+            <Box className="flex justify-end gap-1 mb-2">
                 <CustomTooltip title="Contact us">
-                    <IconButton sx={{ width: 40, height: 40, borderRadius: '10px' }}>
-                        <img src={Contact} alt="contact" style={{ width: 32, height: 32 }} />
+                    <IconButton className="w-[40px] h-[40px] rounded-[10px]">
+                        <img src={Contact} alt="contact" className="w-[32px] h-[32px]" />
                     </IconButton>
                 </CustomTooltip>
 
                 <CustomTooltip title="Close sidebar">
-                    <IconButton
-                        onClick={onToggle}
-                        sx={{ width: 40, height: 40, borderRadius: '10px' }}
-                    >
-                        <img src={Close} alt="close" style={{ width: 32, height: 32 }} />
+                    <IconButton onClick={onToggle} className="w-[40px] h-[40px] rounded-[10px]">
+                        <img src={Close} alt="close" className="w-[32px] h-[32px]" />
                     </IconButton>
                 </CustomTooltip>
             </Box>
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2,
-                    width: '100%',
-                    paddingX: 2,
-                    paddingY: 1,
-                    borderRadius: '8px',
-                    marginBottom: 2,
-                    cursor: 'pointer',
-                    '&:hover': { backgroundColor: 'rgba(0,45,73,0.1)' },
-                }}
-            >
-                <img src={Edit} alt="new chat" style={{ width: 20, height: 20 }} />
-                <Typography sx={{ fontSize: 16, color: 'rgba(0,45,73,1)' }}>New Chat</Typography>
+            <Box className="flex items-center gap-2 w-full px-2 py-1 rounded-[8px] mb-2 cursor-pointer hover:bg-[rgba(0,45,73,0.1)]">
+                <img src={Edit} alt="new chat" className="w-[20px] h-[20px]" />
+                <Typography className="text-[16px] text-[#002D49]">New Chat</Typography>
             </Box>
         </>
     );

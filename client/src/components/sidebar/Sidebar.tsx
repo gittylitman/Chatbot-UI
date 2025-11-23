@@ -1,4 +1,5 @@
-import { Box, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 
 import Dot from '../../assets/ChevronDown.svg';
@@ -15,26 +16,16 @@ export default function Sidebar({ onToggle, sessions }: SidebarProps) {
     const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
 
     return (
-        <Box
-            sx={{
-                width: 446,
-                height: '100vh',
-                backgroundColor: '#FBFBFB',
-                display: 'flex',
-                flexDirection: 'column',
-                paddingTop: '100px',
-                paddingX: '20px',
-            }}
-        >
+        <Box className="w-[446px] h-screen bg-[#FBFBFB] flex flex-col pt-[100px] px-[20px]">
             <SidebarHeader onToggle={onToggle} />
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, marginY: 1, marginLeft: 2 }}>
-                <Typography sx={{ fontSize: 16, color: 'rgba(0,45,73,1)' }}>Chats</Typography>
-                <img src={Dot} alt="dot" style={{ width: 13, height: 13 }} />
+            <Box className="flex items-center gap-1 my-1 ml-2">
+                <Typography className="text-[16px] text-[#002D49]">Chats</Typography>
+                <img src={Dot} alt="dot" className="w-[13px] h-[13px]" />
             </Box>
 
-            <Box sx={{ flex: 1, overflowY: 'auto', paddingRight: '10px', mt: 1 }}>
-                {sessions.map(session => (
+            <Box className="flex-1 overflow-y-auto pr-[10px] mt-1">
+                {sessions.map((session) => (
                     <SessionItemRow
                         key={session.id}
                         session={session}

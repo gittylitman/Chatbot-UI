@@ -1,5 +1,7 @@
-import { Box, Typography, Tooltip, tooltipClasses, TooltipProps, styled } from '@mui/material';
-
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Tooltip, { tooltipClasses, TooltipProps } from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
 import DeleteIcon from '../../assets/Delete.svg';
 import { SessionItem } from './types';
 
@@ -30,72 +32,38 @@ export default function SessionItemRow({ session, isSelected, onClick }: Session
     return (
         <Box
             onClick={onClick}
-            sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                width: 332,
-                height: 45,
-                backgroundColor: 'rgba(245,246,247,1)',
-                border: isSelected ? '1px solid rgba(0,45,73,1)' : '1px solid rgba(229,231,235,1)',
-                borderRadius: 24,
-                padding: '0 24px',
-                cursor: 'pointer',
-                mb: 1.5,
-                transition: 'border 0.2s',
-                '&:hover': {
-                    border: '1px solid rgba(0,45,73,1)',
-                },
-            }}
+            className={`
+                flex justify-between items-center
+                w-[332px] h-[45px]
+                bg-[#F5F6F7]
+                rounded-[24px]
+                px-6 mb-1.5 cursor-pointer
+                transition-all border
+                ${isSelected ? 'border-[#002D49]' : 'border-[#E5E7EB]'}
+                hover:border-[#002D49]
+            `}
         >
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography sx={{ fontSize: 14, fontWeight: 500, color: 'rgba(40,57,108,1)' }}>
+            <Box className="flex flex-col">
+                <Typography className="text-[14px] font-medium text-[#28396C]">
                     {session.id}
                 </Typography>
-                <Typography sx={{ fontSize: 12, color: 'rgba(0,66,90,0.77)' }}>
+                <Typography className="text-[12px] text-[rgba(0,66,90,0.77)]">
                     {new Date(session.createdAt).toLocaleString()}
                 </Typography>
             </Box>
 
             <CustomTooltip
                 title={
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 0,
-                            px: 2,
-                            py: 1,
-                            backgroundColor: 'rgba(198, 219, 93, 1)',
-                            borderRadius: 999,
-                            height: 33,
-                            justifyContent: 'flex-start',
-                        }}
-                    >
-                        <img
-                            src={DeleteIcon}
-                            alt="Delete"
-                            style={{ width: 12, height: 13, display: 'block' }}
-                        />
-                        <Typography
-                            sx={{
-                                fontSize: 14,
-                                fontWeight: 400,
-                                color: 'rgba(0,45,73,1)',
-                                lineHeight: '100%',
-                                whiteSpace: 'nowrap',
-                                ml: 0.5,
-                            }}
-                        >
+                    <Box className="flex items-center gap-0 px-2 py-1 bg-[#C6DB5D] rounded-full h-[33px] justify-start">
+                        <img src={DeleteIcon} alt="Delete" style={{ width: 12, height: 13, display: 'block' }} />
+                        <Typography className="text-[14px] font-normal text-[#002D49] leading-none whitespace-nowrap ml-0.5">
                             Delete
                         </Typography>
                     </Box>
                 }
                 placement="right-start"
             >
-                <Box sx={{ fontSize: '22px', color: 'rgba(40,57,108,1)', cursor: 'pointer' }}>
-                    ⋮
-                </Box>
+                <Box className="text-[22px] text-[#28396C] cursor-pointer">⋮</Box>
             </CustomTooltip>
         </Box>
     );
