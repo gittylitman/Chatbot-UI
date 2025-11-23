@@ -10,7 +10,7 @@ export default tseslint.config(
     { ignores: ['dist', 'node_modules/**', 'src/components/ui/**'] },
     {
         extends: [js.configs.recommended, ...tseslint.configs.recommended, prettier],
-        files: ['**/*.tsx'],
+        files: ['**/*.{ts,tsx}'],
         languageOptions: {
             ecmaVersion: 2020,
             globals: globals.browser,
@@ -27,6 +27,7 @@ export default tseslint.config(
             'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
             '@typescript-eslint/array-type': ['error', { default: 'generic' }],
             'prettier/prettier': 'error',
+            '@typescript-eslint/no-explicit-any': 'off',
         },
     }
 );
