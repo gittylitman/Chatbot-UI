@@ -29,6 +29,7 @@
         "tailwindcss": "^4.1.11",
         "typescript": "^5.8.3",
         "typescript-eslint": "^8.34.1",
+        "qs": "^6.12.3",
         "vitest": "^3.2.4"
     },
     "devDependencies": {
@@ -49,6 +50,7 @@
         "globals": "^16.0.0",
         "globby": "^14.1.0",
         "prettier": "^3.6.2",
+        "qs": "^6.12.3",
         "vite": "^6.3.5"
     }
 }
