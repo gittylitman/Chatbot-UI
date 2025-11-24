@@ -1,46 +1,75 @@
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import InputBase from '@mui/material/InputBase';
-import Paper from '@mui/material/Paper';
 import React, { useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
+import { useDispatch } from 'react-redux';
+
+import { AppDispatch } from '../store';
+import { Message } from '../interfaces/Message';
+import { addMessage, updateMessage } from '../../redux/slices/sessionSlice';
+import { sessionApi } from '../../services/session/session';
 
 const ChatInput: React.FC = () => {
     const [value, setValue] = useState('');
     const [isPressed, setIsPressed] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
 
-    const handleSend = () => {
+    const handleSend = async () => {
         if (!value.trim()) return;
+
+        const userMessage: Message = {
+            id: crypto.randomUUID(),
+            sessionId: 'current',
+            role: 'user',
+            content: value,
+            action: '',
+            createdAt: new Date(),
+        };
+        dispatch(addMessage(userMessage));
         setValue('');
+
+        const loadingMessage: Message = {
+            id: crypto.randomUUID(),
+            sessionId: 'current',
+            role: 'agent',
+            content: '',
+            action: 'typing',
+            createdAt: new Date(),
+        };
+        dispatch(addMessage(loadingMessage));
+
+        const response: Message = await sessionApi.sendMessage('current', userMessage);
+        dispatch(updateMessage({ id: loadingMessage.id, message: response }));
+
         setIsPressed(true);
         setTimeout(() => setIsPressed(false), 150);
     };
 
     return (
-        <Paper
-            elevation={3}
-            className="flex items-center w-[25.99vw] h-[2.344vw] px-[0.521vw] py-[0.208vw] !rounded-[1.042vw] !shadow-[inset_0.208vw_0_0.313vw_0_rgba(0,0,0,0.25)] bg-white box-border"
-        >
-            <InputBase
-                placeholder="Ask anything"
+        <Box className="relative flex items-center w-[36vw] min-h-[5vh] px-[0.5vw] py-[0.2vw] bg-white !rounded-[1.042vw] shadow-md border border-gray-200 transition-shadow duration-200 hover:shadow-lg">
+            <TextareaAutosize
+                minRows={1}
+                maxRows={6}
                 value={value}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
-                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
-                    e.key === 'Enter' && handleSend()
-                }
-                className="flex-1 ml-1 bg-transparent outline-none"
-                inputProps={{
-                    className: '!text-[0.9vw] !text-[#374151]',
+                onChange={e => setValue(e.target.value)}
+                onKeyDown={e => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSend();
+                    }
                 }}
+                placeholder="Ask anything"
+                className="flex-1 bg-transparent outline-none resize-none !text-[0.75vw] !text-[#374151] leading-[1.5] max-h-[9vw] pr-[3vw] overflow-y-auto"
             />
-
             <IconButton
                 onClick={handleSend}
                 disabled={!value.trim()}
-                className={`transition-transform duration-150 p-[0.208vw] w-[2vw] h-[2vw] ${isPressed ? 'scale-90' : 'scale-100'}`}
+                className={`!absolute !right-1 !bottom-1 transition-transform duration-150 p-[0.208vw] w-[2vw] h-[2vw] ${isPressed ? 'scale-90' : 'scale-100'} hover:bg-gray-100 rounded-full`}
             >
                 <SendIcon className="!w-full !h-full rotate-[335deg]" />
             </IconButton>
-        </Paper>
+        </Box>
     );
 };
 

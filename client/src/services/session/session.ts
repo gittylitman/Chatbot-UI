@@ -1,6 +1,6 @@
 import { api } from '../axios/api';
 
-export const session = {
+export const sessionApi = {
     createSession: async (user_id: string) => {
         return api.post(`/session/:${user_id}`);
     },

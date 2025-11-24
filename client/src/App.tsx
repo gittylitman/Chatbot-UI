@@ -1,7 +1,14 @@
+import { Box } from '@mui/material';
 import React from 'react';
 
+import ChatWindow from './components/mainPage/ChatWindow';
+
 const MainApp: React.FC = () => {
-    return <div>Chatbot-UI</div>;
+    return (
+        <Box>
+            <ChatWindow />
+        </Box>
+    );
 };
 
 export default MainApp;
