@@ -5,8 +5,9 @@ import SendIcon from '@mui/icons-material/Send';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { useDispatch } from 'react-redux';
 
+import { Answer } from '../../interfaces/Answer';
 import { AppDispatch } from '../store';
-import { Message } from '../interfaces/Message';
+import { Message } from '../../interfaces/Message';
 import { addMessage, updateMessage } from '../../redux/slices/sessionSlice';
 import { sessionApi } from '../../services/session/session';
 
@@ -15,32 +16,41 @@ const ChatInput: React.FC = () => {
     const [isPressed, setIsPressed] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
 
+    const createMessage = (
+        role: 'user' | 'agent',
+        content: string,
+        action: string = '',
+        id?: string
+    ): Message => {
+        return {
+            id: id ?? crypto.randomUUID(),
+            sessionId: 'current',
+            role,
+            content,
+            action,
+            createdAt: new Date(),
+        };
+    };
+
     const handleSend = async () => {
         if (!value.trim()) return;
 
-        const userMessage: Message = {
-            id: crypto.randomUUID(),
-            sessionId: 'current',
-            role: 'user',
-            content: value,
-            action: '',
-            createdAt: new Date(),
-        };
+        const userMessage: Message = createMessage('user', value);
         dispatch(addMessage(userMessage));
         setValue('');
 
-        const loadingMessage: Message = {
-            id: crypto.randomUUID(),
-            sessionId: 'current',
-            role: 'agent',
-            content: '',
-            action: 'typing',
-            createdAt: new Date(),
-        };
+        const loadingMessage: Message = createMessage('agent', '', 'typing');
         dispatch(addMessage(loadingMessage));
 
-        const response: Message = await sessionApi.sendMessage('current', userMessage);
-        dispatch(updateMessage({ id: loadingMessage.id, message: response }));
+        const response: Answer = await sessionApi.sendMessage('current', userMessage);
+        const updatedMessage: Message = createMessage(
+            'agent',
+            response.content,
+            response.action,
+            loadingMessage.id
+        );
+
+        dispatch(updateMessage({ id: loadingMessage.id, message: updatedMessage }));
 
         setIsPressed(true);
         setTimeout(() => setIsPressed(false), 150);

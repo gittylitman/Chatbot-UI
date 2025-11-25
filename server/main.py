@@ -93,13 +93,11 @@ async def send_message(session_id: str, message: dict):
     await asyncio.sleep(5)
     content = random.choice(dummy_contents)
 
-    return mock_message(
-        session_id=session_id,
-        role="agent",
-        content=content,
-        action="end",
-        type="message"
-    )
+    return {
+            "type": "message",
+            "content": content,
+            "action": "end"
+        }
 
 
 @app.get("/user/{user_id}/history")
