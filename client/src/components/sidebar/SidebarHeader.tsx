@@ -8,6 +8,8 @@ import Close from '../../assets/CloseSidebar.svg';
 import Contact from '../../assets/Mail.svg';
 import Edit from '../../assets/Edit.svg';
 
+
+import { session } from '../../services/session/session';
 const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} arrow={false} />
 ))(() => ({
@@ -21,13 +23,33 @@ const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
     },
 }));
 
-export default function SidebarHeader({ onToggle }: { onToggle: () => void }) {
+export default function SidebarHeader({ userId,onToggle }: { userId:string,onToggle: () => void }) {
+    const handleContactClick = () => {
+        window.open(
+            'https://kineret.health.gov.il/en/contact',
+            '_blank',
+            'noopener,noreferrer'
+        );
+    };
+
+    const handleNewChat = async () => {
+        try {
+            const res = await session.createSession(userId);
+            console.log('New session created:', res.data);
+
+        } catch (err) {
+            console.error('Error creating session:', err);
+        }
+    };
+
     return (
         <>
             <Box className="flex justify-end gap-1 mb-2">
                 <CustomTooltip title="Contact us">
-                    <IconButton className="w-[40px] h-[40px] rounded-[10px]">
-                        <img src={Contact} alt="contact" className="w-[32px] h-[32px]" />
+                    <IconButton className="w-[40px] h-[40px] rounded-[10px]"
+                        onClick={handleContactClick}
+                    >
+                        <img src={Contact} alt="contact" className="w-[32px] h-[32px]" /> 
                     </IconButton>
                 </CustomTooltip>
 
@@ -38,10 +60,14 @@ export default function SidebarHeader({ onToggle }: { onToggle: () => void }) {
                 </CustomTooltip>
             </Box>
 
-            <Box className="flex items-center gap-2 w-full px-2 py-1 rounded-[8px] mb-2 cursor-pointer hover:bg-[rgba(0,45,73,0.1)]">
+            <Box
+                onClick={handleNewChat}
+                className="flex items-center gap-2 w-full px-2 py-1 rounded-[8px] mb-2 cursor-pointer hover:bg-[rgba(0,45,73,0.1)]"
+            >
                 <img src={Edit} alt="new chat" className="w-[20px] h-[20px]" />
                 <Typography className="text-[16px] text-[#002D49]">New Chat</Typography>
             </Box>
+
         </>
     );
 }

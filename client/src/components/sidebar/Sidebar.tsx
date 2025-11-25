@@ -10,14 +10,15 @@ import SidebarHeader from './SidebarHeader';
 interface SidebarProps {
     onToggle: () => void;
     sessions: Array<SessionItem>;
+    userId:string
 }
 
-export default function Sidebar({ onToggle, sessions }: SidebarProps) {
+export default function Sidebar({ onToggle, sessions,userId }: SidebarProps) {
     const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
 
     return (
-        <Box className="w-[446px] h-screen bg-[#FBFBFB] flex flex-col pt-[100px] px-[20px]">
-            <SidebarHeader onToggle={onToggle} />
+      <Box className="w-[446px] h-screen bg-[#FBFBFB] flex flex-col pt-[100px] px-[20px]">
+            <SidebarHeader onToggle={onToggle} userId={userId} />
 
             <Box className="flex items-center gap-1 my-1 ml-2">
                 <Typography className="text-[16px] text-[#002D49]">Chats</Typography>

@@ -5,11 +5,13 @@ import { styled } from '@mui/material/styles';
 
 import DeleteIcon from '../../assets/Delete.svg';
 import { SessionItem } from './types';
+import { session as sessionService } from '../../services/session/session';
 
 interface SessionItemRowProps {
     session: SessionItem;
     isSelected: boolean;
     onClick: () => void;
+    onDelete: (sessionId: string) => void;
 }
 
 const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -29,7 +31,17 @@ const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
     },
 }));
 
-export default function SessionItemRow({ session, isSelected, onClick }: SessionItemRowProps) {
+export default function SessionItemRow({ session, isSelected, onClick, onDelete }: SessionItemRowProps) {
+    const handleDelete = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        try {
+            await sessionService.deleteSession(session.id);
+            onDelete(session.id);
+        } catch (error) {
+            console.error('Error deleting session:', error);
+        }
+    };
+
     return (
         <Box
             onClick={onClick}
@@ -55,13 +67,12 @@ export default function SessionItemRow({ session, isSelected, onClick }: Session
 
             <CustomTooltip
                 title={
-                    <Box className="flex items-center gap-0 px-2 py-1 bg-[#C6DB5D] rounded-full h-[33px] justify-start">
-                        <img
-                            src={DeleteIcon}
-                            alt="Delete"
-                            style={{ width: 12, height: 13, display: 'block' }}
-                        />
+                    <Box className="flex items-center gap-0 px-2 py-1 bg-[#C6DB5D] rounded-full h-[33px] justify-start"
+                        onClick={handleDelete}
+                    >
+                        <img src={DeleteIcon} alt="Delete" style={{ width: 12, height: 13 }} />
                         <Typography className="text-[14px] font-normal text-[#002D49] leading-none whitespace-nowrap ml-0.5">
+
                             Delete
                         </Typography>
                     </Box>

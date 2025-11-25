@@ -1,8 +1,18 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 from datetime import datetime
 import uuid
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+router = APIRouter(prefix="/api/chat")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def current_time():
@@ -32,29 +42,29 @@ def mock_message(session_id: str, role: str, content: str, action=None, type=Non
     }
 
 
-@app.get("/ping")
+@router.get("/ping")
 def ping():
     return {"message": "pong"}
 
 
-@app.post("/session/{user_id}")
+@router.post("/session/{user_id}")
 def create_session(user_id: str):
     session = mock_session(user_id)
     return session
 
 
-@app.get("/session/{session_id}")
+@router.get("/session/{session_id}")
 def get_session(session_id: str):
     session = mock_session("mock")
     session["messages"] = [
         mock_message(session["id"], "user", "Hello, I need you"),
         mock_message(
-            session["id"], "agent", "This is a stub response from the agent", action="end", type="message")
+            session["id"], "agent", "This is a stub response", action="end", type="message")
     ]
     return session
 
 
-@app.post("/session/{session_id}/message")
+@router.post("/session/{session_id}/message")
 def send_message(session_id: str, message: dict):
     return {
         "type": "message",
@@ -63,19 +73,23 @@ def send_message(session_id: str, message: dict):
     }
 
 
-@app.get("/user/{user_id}/history")
+@router.get("/user/{user_id}/history")
 def user_history(user_id: str):
     session = mock_session(user_id)
     session["messages"] = [
         mock_message(session["id"], "user", "Hello, I need you"),
         mock_message(
-            session["id"], "agent", "This is a stub response from the agent", action="end", type="message")
+            session["id"], "agent", "This is a stub response", action="end", type="message")
     ]
     return [session, session]
 
 
-@app.delete("/session/{session_id}")
+@router.delete("/session/{session_id}")
 def delete_session(session_id: str):
+    print("Deleting session:", session_id)
     session = mock_session("mock")
     session["deletedAt"] = current_time()
     return session
+
+
+app.include_router(router)
