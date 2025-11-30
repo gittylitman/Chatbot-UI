@@ -1,7 +1,7 @@
-import React from 'react';
+import Chatbot from './components/Chatbot';
 
 const MainApp: React.FC = () => {
-    return <div>Chatbot-UI</div>;
+    return <Chatbot />;
 };
 
 export default MainApp;
