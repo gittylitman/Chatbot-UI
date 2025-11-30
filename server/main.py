@@ -1,11 +1,7 @@
-<<<<<<< HEAD
 from fastapi import FastAPI, APIRouter
-=======
 import asyncio
-from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import random
->>>>>>> cffc693c05a87964a66d2f19144781d5abf38a06
 from datetime import datetime
 import uuid
 from fastapi.middleware.cors import CORSMiddleware
@@ -20,15 +16,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 
 dummy_contents = [
     "Hello! How can I help you today?",
@@ -59,7 +46,7 @@ def current_time():
 
 def mock_session(user_id: str):
     return {
-        "id": f"session_{uuid.uuid4().hex}",
+        "id": f"{uuid.uuid4().hex}",
         "userId": user_id,
         "createdAt": current_time(),
         "updatedAt": current_time()
@@ -102,7 +89,7 @@ def get_session(session_id: str):
     return session
 
 
-@app.post("/session/{session_id}/message")
+@router.post("/session/{session_id}/message")
 async def send_message(session_id: str, message: dict):
     await asyncio.sleep(5)
     content = random.choice(dummy_contents)
@@ -116,13 +103,19 @@ async def send_message(session_id: str, message: dict):
 
 @router.get("/user/{user_id}/history")
 def user_history(user_id: str):
-    session = mock_session(user_id)
-    session["messages"] = [
-        mock_message(session["id"], "user", "Hello, I need you"),
+    session1 = mock_session(user_id)
+    session2 = mock_session(user_id)
+    session1["messages"] = [
+        mock_message(session1["id"], "user", "Hello, I need you"),
         mock_message(
-            session["id"], "agent", "This is a stub response", action="end", type="message")
+            session1["id"], "agent", "This is a stub response", action="end", type="message")
     ]
-    return [session, session]
+    session2["messages"] = [
+        mock_message(session2["id"], "user", "Hello, I need you"),
+        mock_message(
+            session2["id"], "agent", "This is a stub response", action="end", type="message")
+    ]
+    return [session1, session2]
 
 
 @router.delete("/session/{session_id}")

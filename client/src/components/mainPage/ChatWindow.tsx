@@ -26,7 +26,13 @@ const ChatWindow: React.FC = () => {
     return (
         <Box className="relative w-full max-w-[46vw] h-[99vh] mx-auto rounded-[1vw]">
             <MessageList messages={messages} bottomRef={bottomRef} />
-            <Box className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
+            <Box
+                className={
+                    messages.length > 0
+                        ? 'absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center'
+                        : 'absolute bottom-1/2 left-1/2 -translate-x-1/2 flex flex-col items-center'
+                }
+            >
                 <ChatInput />
                 <Typography variant="body" className="text-xs !mt-1 text-gray-600">
                     Gen AI on OMOP can make mistakes. Consider checking important information.

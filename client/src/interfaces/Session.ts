@@ -5,5 +5,6 @@ export interface Session {
     userId: string;
     createdAt: Date;
     updatedAt: Date;
+    deletedAt?: Date;
     messages: Array<Message>;
 }
