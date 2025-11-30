@@ -1,6 +1,11 @@
+<<<<<<< HEAD:client/src/assets/Mail.svg
 <!-- <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M33 9C33 7.35 31.65 6 30 6H6C4.35 6 3 7.35 3 9M33 9V27C33 28.65 31.65 30 30 30H6C4.35 30 3 28.65 3 27V9M33 9L18 19.5L3 9" stroke="#1A2C62" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg> -->
 <svg width="32" height="26" viewBox="0 0 32 26" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M31 4C31 2.35 29.65 1 28 1H4C2.35 1 1 2.35 1 4M31 4V22C31 23.65 29.65 25 28 25H4C2.35 25 1 23.65 1 22V4M31 4L16 14.5L1 4" stroke="#0F766E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+=======
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M33 9C33 7.35 31.65 6 30 6H6C4.35 6 3 7.35 3 9M33 9V27C33 28.65 31.65 30 30 30H6C4.35 30 3 28.65 3 27V9M33 9L18 19.5L3 9" stroke="#0F766E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+>>>>>>> 4a364c26d71db669cda48a070324e6fe16b9107d:client/src/assets/Contact.svg
 </svg>

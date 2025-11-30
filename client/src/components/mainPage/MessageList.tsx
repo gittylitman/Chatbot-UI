@@ -10,7 +10,7 @@ interface MessageListProps {
 
 const MessageList: React.FC<MessageListProps> = ({ messages, bottomRef }) => {
     return (
-        <Box className="absolute top-0 left-0 right-0 bottom-[6vh] p-[1.67vw] flex flex-col gap-[1.25vw] overflow-y-auto">
+        <Box className="absolute top-[6vh] left-0 right-0 bottom-[6vh] p-[1.67vw] flex flex-col gap-[1.25vw] overflow-y-auto">
             {messages.map((msg: Message, idx: string) => (
                 <MessageBubble key={idx} msg={msg} />
             ))}

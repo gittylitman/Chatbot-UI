@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import ClosedSidebar from './components/sidebar/ClosedSidebar';
 import Sidebar, { SessionItem } from './components/sideBar/SideBar';
@@ -64,6 +65,12 @@ const MainApp: React.FC = () => {
                 <ClosedSidebar onToggle={handleToggleSidebar} sessions={sessions}/>
             )}
     </>
+=======
+import Chatbot from './components/Chatbot';
+
+const MainApp: React.FC = () => {
+    return <Chatbot />;
+>>>>>>> 4a364c26d71db669cda48a070324e6fe16b9107d
 };
 
 export default MainApp;

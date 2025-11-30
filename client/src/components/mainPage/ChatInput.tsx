@@ -3,11 +3,12 @@ import IconButton from '@mui/material/IconButton';
 import React, { useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Answer } from '../../interfaces/Answer';
 import { AppDispatch } from '../store';
 import { Message } from '../../interfaces/Message';
+import { RootState } from '../../redux/store';
 import { addMessage, updateMessage } from '../../redux/slices/sessionSlice';
 import { sessionApi } from '../../services/session/session';
 
@@ -15,6 +16,7 @@ const ChatInput: React.FC = () => {
     const [value, setValue] = useState('');
     const [isPressed, setIsPressed] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
+    const sessionId = useSelector((state: RootState) => state.currentSession.sessionId);
 
     const createMessage = (
         role: 'user' | 'agent',
@@ -24,7 +26,7 @@ const ChatInput: React.FC = () => {
     ): Message => {
         return {
             id: id ?? crypto.randomUUID(),
-            sessionId: 'current',
+            sessionId: sessionId || '',
             role,
             content,
             action,
@@ -42,7 +44,7 @@ const ChatInput: React.FC = () => {
         const loadingMessage: Message = createMessage('agent', '', 'typing');
         dispatch(addMessage(loadingMessage));
 
-        const response: Answer = await sessionApi.sendMessage('current', userMessage);
+        const response: Answer = await sessionApi.sendMessage(sessionId!, userMessage);
         const updatedMessage: Message = createMessage(
             'agent',
             response.content,
@@ -75,9 +77,10 @@ const ChatInput: React.FC = () => {
             <IconButton
                 onClick={handleSend}
                 disabled={!value.trim()}
-                className={`!absolute !right-1 !bottom-1 transition-transform duration-150 p-[0.208vw] w-[2vw] h-[2vw] ${isPressed ? 'scale-90' : 'scale-100'} hover:bg-gray-100 rounded-full`}
+                className={`!absolute !right-1 !bottom-1 !bg-[#0F766E]
+                    transition-transform duration-150 p-[0.208vw] w-[1.8vw] h-[1.8vw] ${isPressed ? 'scale-90' : 'scale-100'} hover:bg-gray-100 rounded-full`}
             >
-                <SendIcon className="!w-full !h-full rotate-[335deg]" />
+                <SendIcon className="!w-full !h-full rotate-[335deg] text-[#FFFFFF]" />
             </IconButton>
         </Box>
     );
