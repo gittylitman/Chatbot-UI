@@ -15,9 +15,9 @@ const ChatWindow: React.FC = () => {
     const session = useSelector((state: RootState) => state.session.session);
     const messages = useMemo(() => session?.messages || [], [session?.messages]);
 
-    useEffect(() => {
-        dispatch(resetSession());
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(resetSession());
+    // }, [dispatch]);
 
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });

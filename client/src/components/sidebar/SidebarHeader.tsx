@@ -3,13 +3,14 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Close from '../../assets/CloseSidebar.svg';
 import Contact from '../../assets/Contact.svg';
 import NewChat from '../../assets/NewChat.svg';
 import { addSession } from '../../redux/slices/sessionListSlice';
 import { sessionApi } from '../../services/session/session';
+import { RootState } from '../../redux/store';
 import { setCurrentSessionId } from '../../redux/slices/currentSessionSlice';
 import { setSession } from '../../redux/slices/sessionSlice';
 
@@ -17,7 +18,7 @@ const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} arrow={false} />
 ))(() => ({
     [`& .${tooltipClasses.tooltip}`]: {
-        backgroundColor: 'rgba(198, 219, 93, 1)',
+        backgroundColor: '#0F766E',
         color: 'rgba(0,45,73,1)',
         fontWeight: 400,
         fontSize: 14,
@@ -38,7 +39,14 @@ export default function SidebarHeader({
     };
 
     const dispatch = useDispatch();
+    const session = useSelector((state: RootState) => state.session.session);
     const handleNewChat = async () => {
+        console.log(session);
+        
+        if (session?.id && session.messages?.length === 0) {
+            return;
+        }
+                
         const newSession = await sessionApi.createSession(userId);
         dispatch(setSession({ ...newSession, messages: [] }));
         dispatch(setCurrentSessionId(newSession.id));

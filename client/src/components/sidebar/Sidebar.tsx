@@ -51,7 +51,7 @@ export default function Sidebar({ onToggle, userId }: SidebarProps) {
     };
 
     return (
-        <Box className="w-[23.229vw] h-screen bg-[#FBFBFB] flex flex-col pt-[9.259vh] px-[1.042vw]">
+        <Box className="w-[26vw] min-w-[240px] max-w-[330px] h-screen bg-[#F3F3F3] flex flex-col pt-[9vh] px-[1vw]">
             <SidebarHeader onToggle={onToggle} userId={userId} />
 
             <List component="nav">
@@ -65,9 +65,9 @@ export default function Sidebar({ onToggle, userId }: SidebarProps) {
                 </ListItemButton>
 
                 <Collapse in={open} timeout="auto" unmountOnExit>
-                    <Box className="max-h-[70vh] overflow-y-auto">
+                    <Box className="flex-1 overflow-y-auto pr-[0.3vw] mt-2">
                         <List disablePadding>
-                            {sessions.map(session => (
+                            {[...sessions].reverse().map(session => (
                                 <Box key={session.id} className="ml-2">
                                     <SessionItemRow
                                         session={session}

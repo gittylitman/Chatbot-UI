@@ -1,0 +1,33 @@
+{
+  "name": "port-whitelist",
+  "version": "0.1.1",
+  "main": "dist/index",
+  "types": "dist/index.d.ts",
+  "repository": "port-whitelist",
+  "scripts": {
+    "prebuild": "npx rimraf dist",
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "jest --forceExit",
+    "lint": "eslint ./src"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^8.0.0",
+    "@nestjs/core": "^8.0.0",
+    "@nestjs/platform-express": "^8.0.0"
+  },
+  "devDependencies": {
+    "@automock/jest": "^1.1.0",
+    "@nestjs/common": "^8.0.0",
+    "@nestjs/core": "^8.0.0",
+    "@nestjs/platform-express": "^8.0.0"
+  }
+}

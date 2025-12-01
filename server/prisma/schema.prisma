@@ -1,0 +1,78 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions", "metrics"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model ChatSession {
+  id        String        @id @default(cuid())
+  userId    String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  deletedAt DateTime?
+  messages  ChatMessage[]
+}
+
+model ChatMessage {
+  id              String           @id @default(cuid())
+  session         ChatSession      @relation(fields: [sessionId], references: [id])
+  sessionId       String
+  role            MessageRole
+  content         String
+  type            ResponseType?
+  action          DirectiveAction?
+  createdAt       DateTime         @default(now())
+  editedAt        DateTime?
+  deletedAt       DateTime?
+  choices         Choice[]
+  dataItems       DataItem[]
+  versions        MessageVersion[]
+  parentMessageId String?
+  parentMessage   ChatMessage?     @relation("MessageBranches", fields: [parentMessageId], references: [id])
+  branches        ChatMessage[]    @relation("MessageBranches")
+}
+
+model MessageVersion {
+  id         String      @id @default(cuid())
+  messageId  String
+  oldContent String
+  createdAt  DateTime    @default(now())
+  message    ChatMessage @relation(fields: [messageId], references: [id])
+}
+
+model Choice {
+  id        String      @id @default(cuid())
+  label     String
+  message   ChatMessage @relation(fields: [messageId], references: [id])
+  messageId String
+}
+
+model DataItem {
+  id        String      @id @default(cuid())
+  key       String
+  value     String
+  message   ChatMessage @relation(fields: [messageId], references: [id])
+  messageId String
+}
+
+enum MessageRole {
+  user
+  agent
+}
+
+enum ResponseType {
+  message
+  choices
+  directive
+  data
+  error
+}
+
+enum DirectiveAction {
+  ask
+  end
+}

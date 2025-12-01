@@ -9,7 +9,7 @@ const Chatbot: React.FC = () => {
         <Box>
             <Header />
             <Box className="flex">
-                <Sidebar userId={'456'} />
+                <Sidebar userId={'gitty'} />
                 <ChatWindow />
             </Box>
         </Box>
