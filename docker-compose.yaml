@@ -1,21 +1,47 @@
 version: "3.9"
+networks:
+  chat-net:
+    driver: bridge
+
 services:
   client:
     build:
       context: ./client
       dockerfile: Dockerfile
     ports:
-      - "1100:1100"
+      - "5173:5173"
     volumes:
       - ./client:/app
       - /app/node_modules
     environment:
       NODE_ENV: development
+    networks:
+      - chat-net
+    depends_on:
+      - chat-service-server
 
-  mock-server:
+  chat-service-db:
+    image: postgres:13.4-alpine
+    restart: always
+    container_name: chat-service-db
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - '5432:5432'
+    networks:
+      - chat-net
+
+  chat-service-server:
+    env_file: ./server/.env
+    container_name: chat-service-server
     build:
       context: ./server
-      dockerfile: Dockerfile
+    command: ["node", "dist/main.api"]
+    depends_on:
+      - chat-service-db
     ports:
-      - "2000:2000"
-    restart: always
+      - '3009:3009'
+    networks:
+      - chat-net

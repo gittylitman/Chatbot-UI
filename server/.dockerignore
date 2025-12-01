@@ -1,0 +1,6 @@
+dist
+node_modules
+docker-compose.yml
+ormlogs.log
+Dockerfile
+cdk.out

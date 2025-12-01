@@ -14,7 +14,7 @@ describe('users API', () => {
         it('should call api.get with the correct URL', async () => {
             await userApi.userHistory('123');
 
-            expect(api.get).toHaveBeenCalledWith('/user/:123/history');
+            expect(api.get).toHaveBeenCalledWith('/user/123/history');
         });
 
         it('should return the api response', async () => {
