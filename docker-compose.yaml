@@ -9,7 +9,7 @@ services:
       context: ./client
       dockerfile: Dockerfile
     ports:
-      - "1100:1100"
+      - "5173:5173"
     volumes:
       - ./client:/app
       - /app/node_modules
@@ -45,11 +45,3 @@ services:
       - '3009:3009'
     networks:
       - chat-net
-
-  # mock-server:
-  #   build:
-  #     context: ./server
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "2000:2000"
-  #   restart: always

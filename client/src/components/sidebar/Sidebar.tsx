@@ -20,10 +20,12 @@ import { userApi } from '../../services/users/users';
 
 interface SidebarProps {
     onToggle: () => void;
+    onNewChat: () => void;
+    onContactClick: () => void;
     userId: string;
 }
 
-export default function Sidebar({ onToggle, userId }: SidebarProps) {
+export default function Sidebar({ onToggle, onNewChat, onContactClick, userId }: SidebarProps) {
     const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
     const [open, setOpen] = useState(true);
 
@@ -32,8 +34,19 @@ export default function Sidebar({ onToggle, userId }: SidebarProps) {
 
     useEffect(() => {
         const loadSessions = async () => {
-            const sessions = await userApi.userHistory(userId);
-            dispatch(setSessionList(sessions));
+            try {
+                const sessions = await userApi.userHistory(userId);
+                dispatch(setSessionList(sessions));
+                const lastSession = sessions[0];
+                dispatch(setCurrentSessionId(lastSession.id));
+                const sessionData = await sessionApi.getSession(lastSession.id);
+                dispatch(setSession(sessionData));
+            } catch {
+                const newSession = await sessionApi.createSession(userId);
+                dispatch(setSessionList([newSession]));
+                dispatch(setCurrentSessionId(newSession.id));
+                dispatch(setSession(newSession));
+            }
         };
 
         loadSessions();
@@ -52,8 +65,11 @@ export default function Sidebar({ onToggle, userId }: SidebarProps) {
 
     return (
         <Box className="w-[26vw] min-w-[240px] max-w-[330px] h-screen bg-[#F3F3F3] flex flex-col pt-[9vh] px-[1vw]">
-            <SidebarHeader onToggle={onToggle} userId={userId} />
-
+            <SidebarHeader
+                onToggle={onToggle}
+                onNewChat={onNewChat}
+                onContactClick={onContactClick}
+            />
             <List component="nav">
                 <ListItemButton onClick={() => setOpen(!open)}>
                     <img src={Chats} alt="chats" className="w-[1.667vw] h-[2.963vh]" />
