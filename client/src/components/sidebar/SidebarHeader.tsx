@@ -3,15 +3,10 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
-import { useDispatch } from 'react-redux';
 
 import Close from '../../assets/CloseSidebar.svg';
 import Contact from '../../assets/Contact.svg';
 import NewChat from '../../assets/NewChat.svg';
-import { addSession } from '../../redux/slices/sessionListSlice';
-import { sessionApi } from '../../services/session/session';
-import { setCurrentSessionId } from '../../redux/slices/currentSessionSlice';
-import { setSession } from '../../redux/slices/sessionSlice';
 
 const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} arrow={false} />
@@ -27,31 +22,21 @@ const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
 }));
 
 export default function SidebarHeader({
-    userId,
     onToggle,
+    onNewChat,
+    onContactClick,
 }: {
-    userId: string;
     onToggle: () => void;
+    onNewChat: () => void;
+    onContactClick: () => void;
 }) {
-    const handleContactClick = () => {
-        window.open('https://kineret.health.gov.il/en/contact', '_blank', 'noopener,noreferrer');
-    };
-
-    const dispatch = useDispatch();
-    const handleNewChat = async () => {
-        const newSession = await sessionApi.createSession(userId);
-        dispatch(setSession({ ...newSession, messages: [] }));
-        dispatch(setCurrentSessionId(newSession.id));
-        dispatch(addSession(newSession));
-    };
-
     return (
         <>
             <Box className="flex justify-end gap-1 mb-2">
                 <CustomTooltip title="Contact us">
                     <IconButton
                         className="w-[2.083vw] h-[3.704vh] rounded-[0.521vw]"
-                        onClick={handleContactClick}
+                        onClick={onContactClick}
                     >
                         <img src={Contact} alt="contact" className="w-[2.083vw] h-[3.704vh]" />
                     </IconButton>
@@ -66,7 +51,7 @@ export default function SidebarHeader({
                 </CustomTooltip>
             </Box>
             <Box
-                onClick={handleNewChat}
+                onClick={onNewChat}
                 className="flex items-center gap-2 w-full px-2 py-1 rounded-[0.417vw] mb-2 cursor-pointer hover:bg-[rgba(0,45,73,0.1)]"
             >
                 <img src={NewChat} alt="new chat" className="w-[1.354vw] h-[2.407vh]" />

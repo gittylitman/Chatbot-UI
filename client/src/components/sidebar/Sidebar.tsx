@@ -20,10 +20,12 @@ import { userApi } from '../../services/users/users';
 
 interface SidebarProps {
     onToggle: () => void;
+    onNewChat: () => void;
+    onContactClick: () => void;
     userId: string;
 }
 
-export default function Sidebar({ onToggle, userId }: SidebarProps) {
+export default function Sidebar({ onToggle, onNewChat, onContactClick, userId }: SidebarProps) {
     const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
     const [open, setOpen] = useState(true);
 
@@ -52,8 +54,11 @@ export default function Sidebar({ onToggle, userId }: SidebarProps) {
 
     return (
         <Box className="w-[23.229vw] h-screen bg-[#FBFBFB] flex flex-col pt-[9.259vh] px-[1.042vw]">
-            <SidebarHeader onToggle={onToggle} userId={userId} />
-
+            <SidebarHeader
+                onToggle={onToggle}
+                onNewChat={onNewChat}
+                onContactClick={onContactClick}
+            />
             <List component="nav">
                 <ListItemButton onClick={() => setOpen(!open)}>
                     <img src={Chats} alt="chats" className="w-[1.667vw] h-[2.963vh]" />
