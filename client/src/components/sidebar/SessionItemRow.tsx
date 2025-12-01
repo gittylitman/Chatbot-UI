@@ -77,7 +77,7 @@ export default function SessionItemRow({
                         className="flex items-center gap-1 px-2 py-1 bg-[#0F766E] rounded-full h-[3.056vh] justify-center cursor-pointer"
                         onClick={handleDelete}
                     >
-                        <img src={DeleteIcon} alt="Delete" style={{ width: 12, height: 13 , filter: "brightness(0) invert(1)"}} />
+                        <img src={DeleteIcon} alt="Delete" style={{ width: 12, height: 13, filter: "brightness(0) invert(1)" }} />
                         <Typography className="text-[0.7rem] font-normal text-white">
                             Delete
                         </Typography>
