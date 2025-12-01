@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App module (api) contract tests When starting the application Should register routes matching snapshot 1`] = `
+"[
+  {
+    \\"message\\": \\"Mapped {/, GET} route\\",
+    \\"params\\": [
+      \\"RouterExplorer\\"
+    ]
+  },
+  {
+    \\"message\\": \\"Mapped {/customer, POST} route\\",
+    \\"params\\": [
+      \\"RouterExplorer\\"
+    ]
+  },
+  {
+    \\"message\\": \\"Mapped {/customer/:id, GET} route\\",
+    \\"params\\": [
+      \\"RouterExplorer\\"
+    ]
+  },
+  {
+    \\"message\\": \\"Mapped {/health, GET} route\\",
+    \\"params\\": [
+      \\"RouterExplorer\\"
+    ]
+  },
+  {
+    \\"message\\": \\"Mapped {/metrics, GET} route\\",
+    \\"params\\": [
+      \\"RouterExplorer\\"
+    ]
+  }
+]"
+`;

@@ -74,7 +74,11 @@ export default function SessionItemRow({
             <CustomTooltip
                 title={
                     <Box
+<<<<<<< HEAD
                         className="flex items-center gap-1 px-2 py-0.5 bg-[#0F766E] rounded-full justify-center"
+=======
+                        className="flex items-center gap-0 px-2 py-1 bg-[#0F766E] rounded-full h-[3.056vh] justify-center"
+>>>>>>> 0ec853409492a9db77dd8a7f0bcb448613adf20a
                         onClick={handleDelete}
                     >
                         <img src={DeleteIcon} alt="Delete" style={{ width: 12, height: 13 }} />

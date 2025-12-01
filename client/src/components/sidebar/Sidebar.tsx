@@ -44,6 +44,7 @@ export default function Sidebar({ onToggle, onNewChat, onContactClick, userId }:
 
     useEffect(() => {
         const loadSessions = async () => {
+<<<<<<< HEAD
             // const sessions = await userApi.userHistory(userId);
             // dispatch(setSessionList(sessions));
             try {
@@ -77,6 +78,17 @@ export default function Sidebar({ onToggle, onNewChat, onContactClick, userId }:
 
                 const newSession = await sessionApi.createSession(userId);
 
+=======
+            try {
+                const sessions = await userApi.userHistory(userId);
+                dispatch(setSessionList(sessions));
+                const lastSession = sessions[0];
+                dispatch(setCurrentSessionId(lastSession.id));
+                const sessionData = await sessionApi.getSession(lastSession.id);
+                dispatch(setSession(sessionData));
+            } catch {
+                const newSession = await sessionApi.createSession(userId);
+>>>>>>> 0ec853409492a9db77dd8a7f0bcb448613adf20a
                 dispatch(setSessionList([newSession]));
                 dispatch(setCurrentSessionId(newSession.id));
                 dispatch(setSession(newSession));
