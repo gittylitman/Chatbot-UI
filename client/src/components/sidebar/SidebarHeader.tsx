@@ -8,9 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Close from '../../assets/CloseSidebar.svg';
 import Contact from '../../assets/Contact.svg';
 import NewChat from '../../assets/NewChat.svg';
+import { RootState } from '../../redux/store';
 import { addSession } from '../../redux/slices/sessionListSlice';
 import { sessionApi } from '../../services/session/session';
-import { RootState } from '../../redux/store';
 import { setCurrentSessionId } from '../../redux/slices/currentSessionSlice';
 import { setSession } from '../../redux/slices/sessionSlice';
 
@@ -41,12 +41,8 @@ export default function SidebarHeader({
     const dispatch = useDispatch();
     const session = useSelector((state: RootState) => state.session.session);
     const handleNewChat = async () => {
-        console.log(session);
-        
-        if (session?.id && session.messages?.length === 0) {
-            return;
-        }
-                
+        if (session && session.messages && session.messages.length === 0) return;
+
         const newSession = await sessionApi.createSession(userId);
         dispatch(setSession({ ...newSession, messages: [] }));
         dispatch(setCurrentSessionId(newSession.id));

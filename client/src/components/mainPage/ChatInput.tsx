@@ -45,7 +45,7 @@ const ChatInput: React.FC = () => {
         dispatch(addMessage(loadingMessage));
 
         const response: Answer = await sessionApi.sendMessage(sessionId!, {
-            message: userMessage.content
+            message: userMessage.content,
         });
         const updatedMessage: Message = createMessage(
             'agent',
