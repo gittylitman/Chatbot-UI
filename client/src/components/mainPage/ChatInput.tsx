@@ -61,7 +61,7 @@ const ChatInput: React.FC = () => {
     };
 
     return (
-        <Box className="relative flex items-center w-[36vw] min-h-[5vh] px-[0.5vw] py-[0.2vw] bg-white !rounded-[1.042vw] shadow-md border border-gray-200 transition-shadow duration-200 hover:shadow-lg">
+        <Box className="relative flex items-center w-[40vw] min-h-[7vh] px-[0.5vw] py-[0.2vw] bg-white !rounded-[1.042vw] shadow-md border border-gray-200 transition-shadow duration-200 hover:shadow-lg">
             <TextareaAutosize
                 minRows={1}
                 maxRows={6}
@@ -79,7 +79,7 @@ const ChatInput: React.FC = () => {
             <IconButton
                 onClick={handleSend}
                 disabled={!value.trim()}
-                className={`!absolute !right-1 !bottom-1 !bg-[#0F766E]
+                className={`!absolute !right-1 !bg-[#0F766E]
                     transition-transform duration-150 p-[0.208vw] w-[1.8vw] h-[1.8vw] ${isPressed ? 'scale-90' : 'scale-100'} hover:bg-gray-100 rounded-full`}
             >
                 <SendIcon className="!w-full !h-full rotate-[335deg] text-[#FFFFFF]" />
