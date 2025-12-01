@@ -56,9 +56,9 @@ export default function SessionItemRow({
             px-3               
             bg-[#F5F6F7]
             rounded-[0.625rem]
-            mb-1 cursor-pointer
+            mb-2 cursor-pointer
             transition-all border
-            ${isSelected ? 'bg-gray-200 border-[#002D49]' : 'bg-gray-100 border-[#E5E7EB]'}
+            ${isSelected ? 'bg-gray-300 border-[#002D49]' : 'bg-gray-100 border-[#E5E7EB]'}
             hover:border-[#002D49]
          `}
         >
@@ -66,7 +66,7 @@ export default function SessionItemRow({
                 <Typography className="text-[0.75rem] font-medium text-[#28396C] truncate">
                     {session.id.substring(0, 11) + '...'}
                 </Typography>
-                <Typography className="text-[0.4rem] h-5 text-[rgba(0,66,90,0.4)]">
+                <Typography className="text-[0.3rem] h-5 text-[rgba(0,66,90,0.3)]">
                     {new Date(session.createdAt).toLocaleString()}
                 </Typography>
             </Box>
@@ -74,11 +74,11 @@ export default function SessionItemRow({
             <CustomTooltip
                 title={
                     <Box
-                        className="flex items-center gap-0 px-2 py-1 bg-[#0F766E] rounded-full h-[3.056vh] justify-center"
+                        className="flex items-center gap-1 px-2 py-1 bg-[#0F766E] rounded-full h-[3.056vh] justify-center cursor-pointer"
                         onClick={handleDelete}
                     >
-                        <img src={DeleteIcon} alt="Delete" style={{ width: 12, height: 13 }} />
-                        <Typography className="text-[0.7rem] font-normal text-[#002D49]">
+                        <img src={DeleteIcon} alt="Delete" style={{ width: 12, height: 13 , filter: "brightness(0) invert(1)"}} />
+                        <Typography className="text-[0.7rem] font-normal text-white">
                             Delete
                         </Typography>
                     </Box>
@@ -86,7 +86,7 @@ export default function SessionItemRow({
                 placement="right-start"
             >
                 <Box className="cursor-pointer flex items-center h-full">
-                    <img src={DeleteIcon} alt="Delete" className="w-3 h-3" />
+                    <img src={DeleteIcon} alt="Delete" className="w-4 h-4" />
                 </Box>
             </CustomTooltip>
         </Box>

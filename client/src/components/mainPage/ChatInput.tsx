@@ -74,15 +74,15 @@ const ChatInput: React.FC = () => {
                     }
                 }}
                 placeholder="Ask anything"
-                className="flex-1 bg-transparent outline-none resize-none !text-[0.75vw] !text-[#374151] leading-[1.5] max-h-[9vw] pr-[3vw] overflow-y-auto"
+                className="flex-1 bg-transparent outline-none resize-none !text-[1vw] !text-[#374151] leading-[1.5] max-h-[9vw] pr-[3vw] overflow-y-auto"
             />
             <IconButton
                 onClick={handleSend}
                 disabled={!value.trim()}
-                className={`!absolute !right-1 !bg-[#0F766E]
-                    transition-transform duration-150 p-[0.208vw] w-[1.8vw] h-[1.8vw] ${isPressed ? 'scale-90' : 'scale-100'} hover:bg-gray-100 rounded-full`}
+                className={`!absolute !right-1
+                    transition-transform duration-150 p-[0.208vw] w-[1.8vw] h-[1.8vw] ${isPressed ? 'scale-90' : 'scale-120'} hover:bg-gray-100 rounded-full`}
             >
-                <SendIcon className="!w-full !h-full rotate-[335deg] text-[#FFFFFF]" />
+                <SendIcon className="!w-full !h-full" />
             </IconButton>
         </Box>
     );

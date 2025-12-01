@@ -8,8 +8,8 @@ const Header: React.FC = () => {
         <Box
             className="
                 fixed top-0 left-0 w-full 
-                h-[7vh] 
-                bg-[#00385B]
+                h-[10vh] 
+                bg-gradient-to-r from-[#00385B] to-[#1A5262]
                 flex items-center 
                 px-[1vw]
                 z-[2000]
@@ -17,7 +17,7 @@ const Header: React.FC = () => {
             "
         >
             <Box className="flex items-center gap-[0.5vw]">
-                <img src={logo1} alt="logo1" className="h-[4.5vh] w-auto object-contain" />
+                <img src={logo1} alt="logo1" className="h-[6.0vh] w-auto object-contain pl-10" />
             </Box>
         </Box>
     );

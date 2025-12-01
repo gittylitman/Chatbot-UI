@@ -13,7 +13,7 @@ const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
 ))(() => ({
     [`& .${tooltipClasses.tooltip}`]: {
         backgroundColor: '#0F766E',
-        color: 'rgba(0,45,73,1)',
+        color: 'white',
         fontWeight: 400,
         fontSize: 14,
         borderRadius: 999,
@@ -32,10 +32,10 @@ export default function SidebarHeader({
 }) {
     return (
         <>
-            <Box className="flex justify-end gap-1 mb-2">
+            <Box className="flex justify-end gap-1 m-4">
                 <CustomTooltip title="Contact us">
                     <IconButton
-                        className="w-[2.083vw] h-[3.704vh] rounded-[0.521vw]"
+                        className="w-[3.083vw] h-[4.704vh] rounded-[0.521vw]"
                         onClick={onContactClick}
                     >
                         <img src={Contact} alt="contact" className="w-[2.083vw] h-[3.704vh]" />
@@ -44,7 +44,7 @@ export default function SidebarHeader({
                 <CustomTooltip title="Close sidebar">
                     <IconButton
                         onClick={onToggle}
-                        className="w-[2.083vw] h-[3.704vh] rounded-[0.521vw]"
+                        className="w-[3.083vw] h-[4.704vh] rounded-[0.521vw]"
                     >
                         <img src={Close} alt="close" className="w-[1.667vw] h-[2.963vh]" />
                     </IconButton>
