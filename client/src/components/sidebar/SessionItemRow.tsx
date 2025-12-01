@@ -20,7 +20,7 @@ const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} arrow={false} />
 ))(() => ({
     [`& .${tooltipClasses.tooltip}`]: {
-        backgroundColor: 'rgba(198, 219, 93, 1)',
+        backgroundColor: '#0F766E',
         width: 95.1,
         height: 33,
         padding: 0,
@@ -73,7 +73,7 @@ export default function SessionItemRow({
             <CustomTooltip
                 title={
                     <Box
-                        className="flex items-center gap-0 px-2 py-1 bg-[#C6DB5D] rounded-full h-[3.056vh] justify-center"
+                        className="flex items-center gap-0 px-2 py-1 bg-[#0F766E] rounded-full h-[3.056vh] justify-center"
                         onClick={handleDelete}
                     >
                         <img src={DeleteIcon} alt="Delete" style={{ width: 12, height: 13 }} />
