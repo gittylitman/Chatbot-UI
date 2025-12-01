@@ -16,7 +16,7 @@ describe('session API', () => {
         it('should call api.post with the correct URL', async () => {
             await sessionApi.createSession('12345');
 
-            expect(api.post).toHaveBeenCalledWith('/session/:12345');
+            expect(api.post).toHaveBeenCalledWith('/session/12345');
         });
     });
 
@@ -24,7 +24,7 @@ describe('session API', () => {
         it('should call api.get with the correct URL', async () => {
             await sessionApi.getSession('abcde');
 
-            expect(api.get).toHaveBeenCalledWith('/session/:abcde');
+            expect(api.get).toHaveBeenCalledWith('/session/abcde');
         });
     });
 
@@ -34,13 +34,13 @@ describe('session API', () => {
 
             await sessionApi.sendMessage('xyz', msg);
 
-            expect(api.post).toHaveBeenCalledWith('/session/:xyz/message', msg);
+            expect(api.post).toHaveBeenCalledWith('/session/xyz/message', msg);
         });
     });
     describe('deleteSession', () => {
         it('should call api.delete with the correct URL', async () => {
             await sessionApi.deleteSession('del123');
-            expect(api.delete).toHaveBeenCalledWith('/session/:del123/');
+            expect(api.delete).toHaveBeenCalledWith('/session/del123/');
         });
     });
 });
