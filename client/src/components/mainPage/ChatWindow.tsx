@@ -24,7 +24,7 @@ const ChatWindow: React.FC = () => {
     }, [messages]);
 
     return (
-        <Box className="relative w-full bg-gradient-to-t from-[rgba(15,118,110,0.3)] to-white p-[1.67vw]">
+        <Box className="relative w-full bg-gradient-to-t from-[rgba(15,118,110,0.2)] to-white p-[1.67vw]">
             <MessageList messages={messages} bottomRef={bottomRef} />
             <Box
                 className={
