@@ -64,7 +64,7 @@ export default function Sidebar({ onToggle, onNewChat, onContactClick, userId }:
     };
 
     return (
-        <Box className="w-[26vw] min-w-[240px] max-w-[330px] h-screen bg-[#F3F3F3] flex flex-col pt-[9vh] px-[1vw]">
+        <Box className="w-[26vw] min-w-[240px] max-w-[330px] h-screen bg-white flex flex-col pt-[9vh] px-[1vw]">
             <SidebarHeader
                 onToggle={onToggle}
                 onNewChat={onNewChat}
