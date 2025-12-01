@@ -32,10 +32,55 @@ export default function Sidebar({ onToggle, onNewChat, onContactClick, userId }:
     const sessions = useSelector((state: RootState) => state.sessionList.sessions);
     const dispatch = useDispatch();
 
+    // useEffect(() => {
+    //     const loadSessions = async () => {
+    //         const sessions = await userApi.userHistory(userId);
+    //         dispatch(setSessionList(sessions));
+    //     };
+
+    //     loadSessions();
+    // }, [dispatch, userId]);
+
+
     useEffect(() => {
         const loadSessions = async () => {
-            const sessions = await userApi.userHistory(userId);
-            dispatch(setSessionList(sessions));
+            // const sessions = await userApi.userHistory(userId);
+            // dispatch(setSessionList(sessions));
+            try {
+                let sessions = await userApi.userHistory(userId);
+
+                if (!sessions || !Array.isArray(sessions)) {
+                    sessions = [];
+                }
+
+                if (sessions.length === 0) {
+                    const newSession = await sessionApi.createSession(userId);
+
+                    sessions = [newSession];
+
+                    dispatch(setSessionList(sessions));
+                    dispatch(setCurrentSessionId(newSession.id));
+                    dispatch(setSession(newSession));
+
+                    return;
+                }
+
+                dispatch(setSessionList(sessions));
+
+                const lastSession = sessions[0];
+
+                dispatch(setCurrentSessionId(lastSession.id));
+                const sessionData = await sessionApi.getSession(lastSession.id);
+                dispatch(setSession(sessionData));
+            } catch (err) {
+                console.error("Failed to load sessions", err);
+
+                const newSession = await sessionApi.createSession(userId);
+
+                dispatch(setSessionList([newSession]));
+                dispatch(setCurrentSessionId(newSession.id));
+                dispatch(setSession(newSession));
+            }
         };
 
         loadSessions();
@@ -53,7 +98,7 @@ export default function Sidebar({ onToggle, onNewChat, onContactClick, userId }:
     };
 
     return (
-        <Box className="w-[23.229vw] h-screen bg-[#FBFBFB] flex flex-col pt-[9.259vh] px-[1.042vw]">
+        <Box className="w-[26vw] min-w-[240px] max-w-[330px] h-screen bg-[#F3F3F3] flex flex-col pt-[9vh] px-[1vw]">
             <SidebarHeader
                 onToggle={onToggle}
                 onNewChat={onNewChat}
@@ -70,9 +115,9 @@ export default function Sidebar({ onToggle, onNewChat, onContactClick, userId }:
                 </ListItemButton>
 
                 <Collapse in={open} timeout="auto" unmountOnExit>
-                    <Box className="max-h-[70vh] overflow-y-auto">
+                    <Box className="flex-1 overflow-y-auto pr-[0.3vw] mt-2">
                         <List disablePadding>
-                            {sessions.map(session => (
+                            {[...sessions].reverse().map(session => (
                                 <Box key={session.id} className="ml-2">
                                     <SessionItemRow
                                         session={session}
