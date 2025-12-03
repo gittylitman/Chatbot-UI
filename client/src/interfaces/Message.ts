@@ -5,6 +5,8 @@ export interface Message {
     content: string;
     action: string;
     createdAt: Date;
+    editedAt?: Date;
+    parentMessageId?: string;
     choices?: Array<string>;
     dataItems?: Array<string>;
 }

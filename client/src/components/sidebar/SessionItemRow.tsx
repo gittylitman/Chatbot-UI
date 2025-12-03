@@ -52,7 +52,7 @@ export default function SessionItemRow({
             onClick={onClick}
             className={`
             flex justify-between items-center
-            w-full h-[42px]       
+            w-full h-[2.188vw]       
             px-3               
             bg-[#F5F6F7]
             rounded-[0.625rem]
@@ -64,7 +64,7 @@ export default function SessionItemRow({
         >
             <Box className="flex flex-col justify-center h-full">
                 <Typography className="text-[0.75rem] font-medium text-[#28396C] truncate">
-                    {session.id.substring(0, 11) + '...'}
+                    {session.id.substring(0, 20) + '...'}
                 </Typography>
                 <Typography className="text-[0.3rem] h-5 text-[rgba(0,66,90,0.3)]">
                     {new Date(session.createdAt).toLocaleString()}
