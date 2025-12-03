@@ -43,10 +43,14 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ msg }) => {
             return;
         }
 
-        const parent = messages.find((m: Message) => m.id === msg.parentMessageId && m.role === 'user');
+        const parent = messages.find(
+            (m: Message) => m.id === msg.parentMessageId && m.role === 'user'
+        );
         setShowPrevious(Boolean(parent));
 
-        const child = messages.find((m: Message) => m.parentMessageId === msg.id && m.role === 'user');
+        const child = messages.find(
+            (m: Message) => m.parentMessageId === msg.id && m.role === 'user'
+        );
         setShowNext(Boolean(child));
     }, [msg, messages]);
 
@@ -92,7 +96,9 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ msg }) => {
     };
 
     const navigateToPrevious = () => {
-        const parent = messages.find((m: Message) => m.id === msg.parentMessageId && m.role === 'user');
+        const parent = messages.find(
+            (m: Message) => m.id === msg.parentMessageId && m.role === 'user'
+        );
         if (!parent) return;
 
         const el = document.getElementById(`message-${parent.id}`);
@@ -105,7 +111,10 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ msg }) => {
     const navigateToNext = () => {
         const children = messages
             .filter((m: Message) => m.parentMessageId === msg.id && m.role === 'user')
-            .sort((a: Message, b: Message) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+            .sort(
+                (a: Message, b: Message) =>
+                    new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            );
         const child = children[0];
         if (!child) return;
 
@@ -139,10 +148,12 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ msg }) => {
                 <Box className="flex flex-col gap-2">
                     <TextareaAutosize
                         value={draft}
-                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDraft(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                            setDraft(e.target.value)
+                        }
                         className="rounded-md p-2 text-sm bg-white resize-none"
                         style={{
-                            minWidth: editWidth ? `${editWidth+100}px` : undefined,
+                            minWidth: editWidth ? `${editWidth + 100}px` : undefined,
                         }}
                         autoFocus
                         onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -168,7 +179,8 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ msg }) => {
                         <Button
                             size="small"
                             onClick={saveEdit}
-                            className="!bg-black !text-white !text-[0.521vw] border border-gray-400 hover:!bg-gray-900 !rounded-[1.042vw] h-[1.563vw] w-[3.125vw]">
+                            className="!bg-black !text-white !text-[0.521vw] border border-gray-400 hover:!bg-gray-900 !rounded-[1.042vw] h-[1.563vw] w-[3.125vw]"
+                        >
                             Save
                         </Button>
                     </Box>
@@ -282,7 +294,8 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ msg }) => {
                                     <IconButton
                                         size="small"
                                         onClick={() => startEditing()}
-                                        className="!bg-[#F5F6F7] hover:!bg-gray-300 hover:shadow-sm !text-gray-700 !rounded-md">
+                                        className="!bg-[#F5F6F7] hover:!bg-gray-300 hover:shadow-sm !text-gray-700 !rounded-md"
+                                    >
                                         <EditOutlinedIcon fontSize="inherit" />
                                     </IconButton>
 
@@ -292,14 +305,16 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ msg }) => {
                                                 size="small"
                                                 onClick={navigateToPrevious}
                                                 disabled={!showPrevious}
-                                                className={`!bg-[#F5F6F7] disabled:!opacity-40 hover:!bg-gray-300 hover:shadow-sm !text-gray-700 !rounded-md !p-0`}>
+                                                className={`!bg-[#F5F6F7] disabled:!opacity-40 hover:!bg-gray-300 hover:shadow-sm !text-gray-700 !rounded-md !p-0`}
+                                            >
                                                 <ChevronLeft fontSize="inherit" />
                                             </IconButton>
                                             <IconButton
                                                 size="small"
                                                 onClick={navigateToNext}
                                                 disabled={!showNext}
-                                                className={`!bg-[#F5F6F7] disabled:!opacity-40 hover:!bg-gray-300 hover:shadow-sm !text-gray-700 !rounded-md !p-0`}>
+                                                className={`!bg-[#F5F6F7] disabled:!opacity-40 hover:!bg-gray-300 hover:shadow-sm !text-gray-700 !rounded-md !p-0`}
+                                            >
                                                 <ChevronRight fontSize="inherit" />
                                             </IconButton>
                                         </Box>
