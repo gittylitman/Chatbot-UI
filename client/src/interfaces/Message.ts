@@ -8,5 +8,6 @@ export interface Message {
     editedAt?: Date;
     parentMessageId?: string;
     choices?: Array<string>;
+    tableRows?: any[];
     dataItems?: Array<string>;
 }

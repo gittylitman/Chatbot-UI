@@ -12,11 +12,81 @@ import { RootState } from '../../redux/store';
 import { addMessage, updateMessage } from '../../redux/slices/sessionSlice';
 import { sessionApi } from '../../services/session/session';
 
+
 const ChatInput: React.FC = () => {
     const [value, setValue] = useState('');
     const [isPressed, setIsPressed] = useState(false);
+
+
     const dispatch = useDispatch<AppDispatch>();
     const sessionId = useSelector((state: RootState) => state.currentSession.sessionId);
+
+    const rows = [
+        {
+            conceptId: "41414583",
+            conceptCode: "427089005",
+            conceptName: "Diabetes mellitus due to cystic fibrosis",
+            classId: "Clinical Finding",
+            domainId: "Condition",
+            vocabularyId: "SNOMED",
+            invalidReason: "V",
+            domainName: "Condition",
+            vocabularyName: "SNOMED",
+            validStartDate: "2025-01-01",
+            validEndDate: "2025-12-31",
+        },
+        {
+            conceptId: "41424584",
+            conceptCode: "427089006",
+            conceptName: "Hypertension",
+            classId: "Clinical Finding",
+            domainId: "Condition",
+            vocabularyId: "SNOMED",
+            invalidReason: "כג",
+            domainName: "Condition",
+            vocabularyName: "SNOMED",
+            validStartDate: "2025-01-01",
+            validEndDate: "2025-12-31",
+        },
+        {
+            conceptId: "41443584",
+            conceptCode: "427089006",
+            conceptName: "Hypertension",
+            classId: "Clinical Finding",
+            domainId: "Condition",
+            vocabularyId: "SNOMED",
+            invalidReason: "כג",
+            domainName: "Condition",
+            vocabularyName: "SNOMED",
+            validStartDate: "2025-01-01",
+            validEndDate: "2025-12-31",
+        },
+        {
+            conceptId: "41444584",
+            conceptCode: "427089006",
+            conceptName: "Hypertension",
+            classId: "Clinical Finding",
+            domainId: "Condition",
+            vocabularyId: "SNOMED",
+            invalidReason: "כג",
+            domainName: "Condition",
+            vocabularyName: "SNOMED",
+            validStartDate: "2025-01-01",
+            validEndDate: "2025-12-31",
+        },
+        {
+            conceptId: "41444584",
+            conceptCode: "427089006",
+            conceptName: "Hypertension",
+            classId: "Clinical Finding",
+            domainId: "Condition",
+            vocabularyId: "SNOMED",
+            invalidReason: "כג",
+            domainName: "Condition",
+            vocabularyName: "SNOMED",
+            validStartDate: "2025-01-01",
+            validEndDate: "2025-12-31",
+        },]
 
     const createMessage = (
         role: 'user' | 'agent',
@@ -44,18 +114,31 @@ const ChatInput: React.FC = () => {
         const loadingMessage: Message = createMessage('agent', '', 'typing');
         dispatch(addMessage(loadingMessage));
 
-        const response: Answer = await sessionApi.sendMessage(sessionId!, {
+        var response: Answer = await sessionApi.sendMessage(sessionId!, {
             message: userMessage.content,
         });
-        dispatch(
-            updateMessage({ id: userMessage.id, message: { ...userMessage, id: response.id } })
-        );
-        const updatedMessage: Message = createMessage(
-            'agent',
-            response.content,
-            response.action,
-            response.responseId
-        );
+
+        response.type = 'table'
+        console.log("response.type =", response.type);
+
+
+        let updatedMessage: Message;
+
+        if (response.type === "table") {
+            updatedMessage = createMessage(
+                "agent",
+                "",
+                "table",
+            );
+            updatedMessage.tableRows = rows;
+        } else {
+            updatedMessage = createMessage(
+                "agent",
+                response.content,
+                response.action,
+                loadingMessage.id
+            );
+        }
 
         dispatch(updateMessage({ id: loadingMessage.id, message: updatedMessage }));
 
