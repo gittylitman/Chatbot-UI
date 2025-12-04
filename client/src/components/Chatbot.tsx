@@ -14,6 +14,7 @@ import { setSession } from '../redux/slices/sessionSlice';
 
 const Chatbot: React.FC = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
     const userId = '456';
     const session = useSelector((state: RootState) => state.session.session);
 
@@ -30,6 +31,7 @@ const Chatbot: React.FC = () => {
         dispatch(setSession({ ...newSession, messages: [] }));
         dispatch(setCurrentSessionId(newSession.id));
         dispatch(addSession(newSession));
+        setSelectedSessionId(newSession.id);
     };
     return (
         <Box>
@@ -41,6 +43,8 @@ const Chatbot: React.FC = () => {
                         onNewChat={handleNewChat}
                         onContactClick={handleContactClick}
                         userId={userId}
+                        selectedSessionId={selectedSessionId}
+                        setSelectedSessionId={setSelectedSessionId}
                     />
                 ) : (
                     <ClosedSidebar
@@ -49,7 +53,7 @@ const Chatbot: React.FC = () => {
                         onContactClick={handleContactClick}
                     />
                 )}
-                <ChatWindow />
+                <ChatWindow resetSessionTrigger={selectedSessionId} />
             </Box>
         </Box>
     );

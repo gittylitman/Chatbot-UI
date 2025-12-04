@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,11 +12,16 @@ import { RootState } from '../../redux/store';
 import { addMessage, updateMessage } from '../../redux/slices/sessionSlice';
 import { sessionApi } from '../../services/session/session';
 
-const ChatInput: React.FC = () => {
+const ChatInput: React.FC = ({ resetSessionTrigger }) => {
     const [value, setValue] = useState('');
     const [isPressed, setIsPressed] = useState(false);
+    const [isSessionEnded, setIsSessionEnded] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
     const sessionId = useSelector((state: RootState) => state.currentSession.sessionId);
+
+    useEffect(() => {
+        setIsSessionEnded(false);
+    }, [resetSessionTrigger]);
 
     const createMessage = (
         role: 'user' | 'agent',
@@ -35,7 +40,7 @@ const ChatInput: React.FC = () => {
     };
 
     const handleSend = async () => {
-        if (!value.trim()) return;
+        if (!value.trim() || isSessionEnded) return;
 
         const userMessage: Message = createMessage('user', value);
         dispatch(addMessage(userMessage));
@@ -47,9 +52,15 @@ const ChatInput: React.FC = () => {
         const response: Answer = await sessionApi.sendMessage(sessionId!, {
             message: userMessage.content,
         });
+
+        if (response.action === 'end') {
+            setIsSessionEnded(true);
+        }
+
         dispatch(
             updateMessage({ id: userMessage.id, message: { ...userMessage, id: response.id } })
         );
+
         const updatedMessage: Message = createMessage(
             'agent',
             response.content,
@@ -64,29 +75,41 @@ const ChatInput: React.FC = () => {
     };
 
     return (
-        <Box className="relative flex items-center w-[40vw] min-h-[7vh] px-[0.5vw] py-[0.2vw] bg-white !rounded-[1.042vw] shadow-md border border-gray-200 transition-shadow duration-200 hover:shadow-lg">
-            <TextareaAutosize
-                minRows={1}
-                maxRows={6}
-                value={value}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setValue(e.target.value)}
-                onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        handleSend();
-                    }
-                }}
-                placeholder="Ask anything"
-                className="flex-1 bg-transparent outline-none resize-none !text-[1vw] !text-[#374151] leading-[1.5] max-h-[9vw] pr-[3vw] overflow-y-auto"
-            />
-            <IconButton
-                onClick={handleSend}
-                disabled={!value.trim()}
-                className={`!absolute !right-1
+        <Box
+            className={`relative flex items-center w-[40vw] min-h-[7vh] px-[0.5vw] py-[0.2vw] bg-white !rounded-[1.042vw] border border-gray-200 transition-shadow duration-200 ${isSessionEnded ? 'shadow-[0_4px_15px_rgba(0,56,91,0.5)]' : 'shadow-md hover:shadow-lg'}`}
+        >
+            {isSessionEnded ? (
+                <Box className="flex-1 w-full text-center text-[#00385B] font-bold text-[1.2vw] py-[1vh] ">
+                    Session has truly ended!
+                </Box>
+            ) : (
+                <Box className="relative flex items-center w-full">
+                    <TextareaAutosize
+                        minRows={1}
+                        maxRows={6}
+                        value={value}
+                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                            setValue(e.target.value)
+                        }
+                        onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                handleSend();
+                            }
+                        }}
+                        placeholder="Ask anything"
+                        className="flex-1 bg-transparent outline-none resize-none !text-[1vw] !text-[#374151] leading-[1.5] max-h-[9vw] pr-[3vw] overflow-y-auto"
+                    />
+                    <IconButton
+                        onClick={handleSend}
+                        disabled={!value.trim()}
+                        className={`!absolute !right-1
                     transition-transform duration-150 p-[0.208vw] w-[1.8vw] h-[1.8vw] ${isPressed ? 'scale-90' : 'scale-120'} hover:bg-gray-100 rounded-full`}
-            >
-                <SendIcon className="!w-full !h-full" />
-            </IconButton>
+                    >
+                        <SendIcon className="!w-full !h-full" />
+                    </IconButton>
+                </Box>
+            )}
         </Box>
     );
 };

@@ -54,7 +54,6 @@ export default function SessionItemRow({
             flex justify-between items-center
             w-full h-[2.188vw]       
             px-3               
-            bg-[#F5F6F7]
             rounded-[0.625rem]
             mb-2 cursor-pointer
             transition-all border

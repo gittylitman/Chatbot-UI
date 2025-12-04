@@ -23,10 +23,18 @@ interface SidebarProps {
     onNewChat: () => void;
     onContactClick: () => void;
     userId: string;
+    selectedSessionId: string | null;
+    setSelectedSessionId: (id: string) => void;
 }
 
-export default function Sidebar({ onToggle, onNewChat, onContactClick, userId }: SidebarProps) {
-    const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
+export default function Sidebar({
+    onToggle,
+    onNewChat,
+    onContactClick,
+    userId,
+    selectedSessionId,
+    setSelectedSessionId,
+}: SidebarProps) {
     const [open, setOpen] = useState(true);
 
     const sessions = useSelector((state: RootState) => state.sessionList.sessions);
@@ -39,12 +47,14 @@ export default function Sidebar({ onToggle, onNewChat, onContactClick, userId }:
                 dispatch(setSessionList(sessions));
                 const lastSession = sessions[0];
                 dispatch(setCurrentSessionId(lastSession.id));
+                setSelectedSessionId(lastSession.id);
                 const sessionData = await sessionApi.getSession(lastSession.id);
                 dispatch(setSession(sessionData));
             } catch {
                 const newSession = await sessionApi.createSession(userId);
                 dispatch(setSessionList([newSession]));
                 dispatch(setCurrentSessionId(newSession.id));
+                setSelectedSessionId(newSession.id);
                 dispatch(setSession(newSession));
             }
         };
