@@ -77,9 +77,10 @@ export const Table: React.FC<TableProps> = ({ rows, onSelectionChange }) => {
                 <Button
                     disabled={selectedRows.length === 0}
                     className={`px-4 py-2 !rounded-lg !text-white !transition
-                        ${selectedRows.length === 0
-                            ? '!bg-gray-300 cursor-not-allowed'
-                            : '!bg-[#00385B] hover:!bg-[#005174]'
+                        ${
+                            selectedRows.length === 0
+                                ? '!bg-gray-300 cursor-not-allowed'
+                                : '!bg-[#00385B] hover:!bg-[#005174]'
                         }`}
                 >
                     Send selected rows
