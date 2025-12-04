@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,7 +19,7 @@ const ChatInput: React.FC = ({ resetSessionTrigger }) => {
     const dispatch = useDispatch<AppDispatch>();
     const sessionId = useSelector((state: RootState) => state.currentSession.sessionId);
 
-    React.useEffect(() => {
+    useEffect(() => {
         setIsSessionEnded(false);
     }, [resetSessionTrigger]);
 
