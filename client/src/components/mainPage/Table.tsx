@@ -1,53 +1,56 @@
-// Table.tsx
-import * as React from "react";
-import { DataGrid, GridColDef, GridRowSelectionModel, GridRowId } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import { DataGrid, GridColDef, GridRowId, GridRowSelectionModel } from '@mui/x-data-grid';
+import React from 'react';
 
-interface CustomTableProps {
-    rows: any[];
-    onSelectionChange?: (selectedRows: any[]) => void;
+interface TableProps {
+    rows: Array<any>;
+    onSelectionChange?: (selectedRows: Array<any>) => void;
 }
 
-const normalizeSelection = (selection: GridRowSelectionModel): GridRowId[] => {
-    if (selection == null) return [];
-
-    if (Array.isArray(selection)) return selection as GridRowId[];
-
-    if (selection instanceof Set) return Array.from(selection) as GridRowId[];
-
-    if (typeof selection === "object") {
-        try {
-            const keys = Object.keys(selection);
-            if (keys.length > 0) return keys as GridRowId[];
-        } catch (e) {
-        }
-    }
-
-    return [selection as GridRowId];
+const extractIds = (value: any): Array<GridRowId> => {
+    if (!value) return [];
+    if (Array.isArray(value)) return value;
+    if (value instanceof Set) return Array.from(value);
+    if (typeof value === 'object') return Object.keys(value);
+    return [];
 };
 
-export const CustomTable: React.FC<CustomTableProps> = ({ rows, onSelectionChange }) => {
-    const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
-    const rowsWithId = React.useMemo(() => rows.map((row, index) => ({ id: index, ...row })), [rows]);
+const resolveSelection = (selection: any, allRows: Array<any>): Array<GridRowId> => {
+    const allIds = allRows.map(r => r.id);
 
-    const columns: GridColDef[] = [
-        { field: "conceptId", headerName: "Concept ID", width: 120 },
-        { field: "conceptCode", headerName: "Concept Code", width: 140 },
-        { field: "conceptName", headerName: "Concept Name", width: 300 },
-        { field: "classId", headerName: "Class ID", width: 150 },
-        { field: "domainId", headerName: "Domain ID", width: 150 },
-        { field: "vocabularyId", headerName: "Vocabulary ID", width: 150 },
-        { field: "invalidReason", headerName: "Invalid Reason", width: 120 },
-        { field: "domainName", headerName: "Domain Name", width: 150 },
-        { field: "vocabularyName", headerName: "Vocabulary Name", width: 150 },
-        { field: "validStartDate", headerName: "Valid Start", width: 120 },
-        { field: "validEndDate", headerName: "Valid End", width: 120 },
+    if (selection?.type !== 'exclude') {
+        return extractIds(selection?.ids);
+    }
+    const excluded = new Set(extractIds(selection?.ids));
+    return allIds.filter(id => !excluded.has(id));
+};
+
+export const Table: React.FC<TableProps> = ({ rows, onSelectionChange }) => {
+    const [selectedRows, setSelectedRows] = React.useState<Array<any>>([]);
+
+    const rowsWithId = React.useMemo(
+        () => rows.map((row, index) => ({ id: index, ...row })),
+        [rows]
+    );
+
+    const columns: Array<GridColDef> = [
+        { field: 'conceptId', headerName: 'Concept ID', width: 120 },
+        { field: 'conceptCode', headerName: 'Concept Code', width: 140 },
+        { field: 'conceptName', headerName: 'Concept Name', width: 300 },
+        { field: 'classId', headerName: 'Class ID', width: 150 },
+        { field: 'domainId', headerName: 'Domain ID', width: 150 },
+        { field: 'vocabularyId', headerName: 'Vocabulary ID', width: 150 },
+        { field: 'invalidReason', headerName: 'Invalid Reason', width: 120 },
+        { field: 'domainName', headerName: 'Domain Name', width: 150 },
+        { field: 'vocabularyName', headerName: 'Vocabulary Name', width: 150 },
+        { field: 'validStartDate', headerName: 'Valid Start', width: 120 },
+        { field: 'validEndDate', headerName: 'Valid End', width: 120 },
     ];
-    console.log(selectedRows);
 
     return (
         <Box>
-            <div className="w-full max-w-5xl rounded-lg overflow-hidden border border-[#00385B]">
+            <Box className="w-full max-w-5xl rounded-lg overflow-hidden border border-[#00385B]">
                 <DataGrid
                     autoHeight
                     rows={rowsWithId}
@@ -55,33 +58,35 @@ export const CustomTable: React.FC<CustomTableProps> = ({ rows, onSelectionChang
                     checkboxSelection
                     disableColumnMenu
                     onRowSelectionModelChange={(selection: GridRowSelectionModel) => {
-                        const ids = normalizeSelection(selection);
+                        const ids = resolveSelection(selection, rowsWithId);
 
                         const selected = ids
-                            .map(id => rowsWithId.find(r => String(r.id) === String(id)))
-                            .filter(Boolean) as any[];
+                            .map(id => rowsWithId.find(r => r.id === id))
+                            .filter(Boolean);
 
                         setSelectedRows(selected);
-                        if (onSelectionChange) onSelectionChange(selected);
+                        onSelectionChange?.(selected);
                     }}
-                    getRowClassName={(params) =>
-                        params.indexRelativeToCurrentPage % 2 === 0 ? "bg-gray-50" : ""
+                    getRowClassName={params =>
+                        params.indexRelativeToCurrentPage % 2 === 0 ? 'bg-gray-50' : ''
                     }
                 />
-            </div>
-            <button
-                disabled={selectedRows.length === 0}
-                className={`px-4 py-2 rounded-lg text-white transition
-                    ${selectedRows.length === 0
-                        ? "bg-gray-300 cursor-not-allowed"
-                        : "bg-[#00385B] hover:bg-[#005174]"
-                    }`}
-            >
-                Send selected rows
-            </button>
+            </Box>
 
+            <Box className="w-full max-w-5xl flex justify-center mt-2">
+                <Button
+                    disabled={selectedRows.length === 0}
+                    className={`px-4 py-2 !rounded-lg !text-white !transition
+                        ${selectedRows.length === 0
+                            ? '!bg-gray-300 cursor-not-allowed'
+                            : '!bg-[#00385B] hover:!bg-[#005174]'
+                        }`}
+                >
+                    Send selected rows
+                </Button>
+            </Box>
         </Box>
     );
 };
 
-export default CustomTable;
+export default Table;

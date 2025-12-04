@@ -59,7 +59,7 @@ export default function Sidebar({ onToggle, onNewChat, onContactClick, userId }:
     };
 
     const handleDeleteSession = async (sessionId: string) => {
-        if(sessions.length==1){
+        if (sessions.length == 1) {
             const deleteSession = await sessionApi.deleteSession(sessionId);
             dispatch(removeSession(deleteSession));
             const newSession = await sessionApi.createSession(userId);
@@ -69,8 +69,6 @@ export default function Sidebar({ onToggle, onNewChat, onContactClick, userId }:
         }
         const deleteSession = await sessionApi.deleteSession(sessionId);
         dispatch(removeSession(deleteSession));
-
-        
     };
 
     return (
