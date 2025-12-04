@@ -47,11 +47,14 @@ const ChatInput: React.FC = () => {
         const response: Answer = await sessionApi.sendMessage(sessionId!, {
             message: userMessage.content,
         });
+        dispatch(
+            updateMessage({ id: userMessage.id, message: { ...userMessage, id: response.id } })
+        );
         const updatedMessage: Message = createMessage(
             'agent',
             response.content,
             response.action,
-            loadingMessage.id
+            response.responseId
         );
 
         dispatch(updateMessage({ id: loadingMessage.id, message: updatedMessage }));
@@ -66,8 +69,8 @@ const ChatInput: React.FC = () => {
                 minRows={1}
                 maxRows={6}
                 value={value}
-                onChange={e => setValue(e.target.value)}
-                onKeyDown={e => {
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setValue(e.target.value)}
+                onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
                         handleSend();
