@@ -69,6 +69,14 @@ export default function Sidebar({
     };
 
     const handleDeleteSession = async (sessionId: string) => {
+        if (sessions.length == 1) {
+            const deleteSession = await sessionApi.deleteSession(sessionId);
+            dispatch(removeSession(deleteSession));
+            const newSession = await sessionApi.createSession(userId);
+            dispatch(setSessionList([newSession]));
+            dispatch(setCurrentSessionId(newSession.id));
+            dispatch(setSession(newSession));
+        }
         const deleteSession = await sessionApi.deleteSession(sessionId);
         dispatch(removeSession(deleteSession));
     };
