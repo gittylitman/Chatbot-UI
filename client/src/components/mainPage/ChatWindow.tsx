@@ -7,7 +7,7 @@ import ChatInput from './ChatInput';
 import MessageList from './MessageList';
 import { RootState } from '../../redux/store';
 
-const ChatWindow: React.FC = () => {
+const ChatWindow: React.FC = ({ resetSessionTrigger }) => {
     const bottomRef = useRef<HTMLDivElement>(null);
 
     const session = useSelector((state: RootState) => state.session.session);
@@ -27,7 +27,7 @@ const ChatWindow: React.FC = () => {
                         : 'absolute bottom-1/2 left-1/2 -translate-x-1/2 flex flex-col items-center'
                 }
             >
-                <ChatInput />
+                <ChatInput resetSessionTrigger={resetSessionTrigger} />
                 <Typography variant="body" className="text-xs !mt-1 text-gray-600">
                     Gen AI on OMOP can make mistakes. Consider checking important information.
                 </Typography>
