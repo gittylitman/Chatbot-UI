@@ -12,10 +12,10 @@ export default function MenuButton({ onClick, icon, label }: MenuButtonProps) {
     return (
         <Box className="flex flex-col items-center">
             <IconButton
-                className="w-[3vw] h-[3vw] rounded-[0.52vw] flex flex-col items-center gap-1"
+                className="w-[2.8vw] h-[2.8vw] rounded-[0.52vw] flex flex-col items-center gap-1"
                 onClick={onClick}
             >
-                <img src={icon} alt={label} className="w-[1.8vw] h-[2vw]" />
+                <img src={icon} alt={label} />
             </IconButton>
             <Typography className="font-inter font-normal !text-[0.99vw] leading-[1] text-[#002D49] text-center">
                 {label}

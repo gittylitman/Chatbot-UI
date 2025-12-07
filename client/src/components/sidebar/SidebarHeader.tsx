@@ -35,18 +35,15 @@ export default function SidebarHeader({
             <Box className="flex justify-end gap-1 m-4">
                 <CustomTooltip title="Contact us">
                     <IconButton
-                        className="w-[3.083vw] h-[4.704vh] rounded-[0.521vw]"
+                        className="w-[2.8vw] h-[2.8vw] rounded-[0.52vw]"
                         onClick={onContactClick}
                     >
-                        <img src={Contact} alt="contact" className="w-[2.083vw] h-[3.704vh]" />
+                        <img src={Contact} alt="contact" />
                     </IconButton>
                 </CustomTooltip>
                 <CustomTooltip title="Close sidebar">
-                    <IconButton
-                        onClick={onToggle}
-                        className="w-[3.083vw] h-[4.704vh] rounded-[0.521vw]"
-                    >
-                        <img src={Close} alt="close" className="w-[1.667vw] h-[2.963vh]" />
+                    <IconButton onClick={onToggle} className="w-[2.8vw] h-[2.8vw] rounded-[0.52vw]">
+                        <img src={Close} alt="close" />
                     </IconButton>
                 </CustomTooltip>
             </Box>
@@ -54,7 +51,7 @@ export default function SidebarHeader({
                 onClick={onNewChat}
                 className="flex items-center gap-2 w-full px-2 py-1 rounded-[0.417vw] mb-2 cursor-pointer hover:bg-[rgba(0,45,73,0.1)]"
             >
-                <img src={NewChat} alt="new chat" className="w-[1.354vw] h-[2.407vh]" />
+                <img src={NewChat} alt="new chat" />
                 <Typography className="text-[0.833vw] text-[#002D49]">New Chat</Typography>
             </Box>
         </>

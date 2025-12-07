@@ -11,12 +11,14 @@ import { Message } from '../../interfaces/Message';
 import { RootState } from '../../redux/store';
 import { addMessage, updateMessage } from '../../redux/slices/sessionSlice';
 import { sessionApi } from '../../services/session/session';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 const ChatInput: React.FC = () => {
     const [value, setValue] = useState('');
     const [isPressed, setIsPressed] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
     const sessionId = useSelector((state: RootState) => state.currentSession.sessionId);
+    const isMobile = useIsMobile();
 
     const createMessage = (
         role: 'user' | 'agent',
@@ -47,6 +49,7 @@ const ChatInput: React.FC = () => {
         const response: Answer = await sessionApi.sendMessage(sessionId!, {
             message: userMessage.content,
         });
+
         const updatedMessage: Message = createMessage(
             'agent',
             response.content,
@@ -55,13 +58,32 @@ const ChatInput: React.FC = () => {
         );
 
         dispatch(updateMessage({ id: loadingMessage.id, message: updatedMessage }));
-
         setIsPressed(true);
         setTimeout(() => setIsPressed(false), 150);
     };
 
     return (
-        <Box className="relative flex items-center w-[40vw] min-h-[7vh] px-[0.5vw] py-[0.2vw] bg-white !rounded-[1.042vw] shadow-md border border-gray-200 transition-shadow duration-200 hover:shadow-lg">
+        <Box
+            className={`
+        relative flex items-center 
+        ${
+            isMobile
+                ? 'w-[77.86vw] h-[14.76vw] px-[6.87vw] py-[5.09vw] rounded-[5.09vw]'
+                : 'w-[40vw] min-h-[7vh] px-[0.5vw] py-[0.2vw] rounded-[1.042vw]'
+        }
+        gap-[2.55vw] 
+        bg-${isMobile ? '[#F1F7F6]' : 'white'} 
+        shadow-md border border-gray-200 transition-shadow duration-200 hover:shadow-lg
+      `}
+            style={
+                isMobile
+                    ? {
+                          boxShadow: 'inset 1.02vw 0 1.53vw 0 rgba(0, 56, 91, 0.2)',
+                          border: '0.063vw solid #002D49',
+                      }
+                    : undefined
+            }
+        >
             <TextareaAutosize
                 minRows={1}
                 maxRows={6}
@@ -74,15 +96,28 @@ const ChatInput: React.FC = () => {
                     }
                 }}
                 placeholder="Ask anything"
-                className="flex-1 bg-transparent outline-none resize-none !text-[1vw] !text-[#374151] leading-[1.5] max-h-[9vw] pr-[3vw] overflow-y-auto"
+                className={`
+          flex-1 resize-none outline-none overflow-y-auto
+          ${
+              isMobile
+                  ? '!text-[4.07vw] !text-[#002D49] leading-[1] font-inter bg-[#F1F7F6]'
+                  : '!text-[1vw] !text-[#374151] leading-[1.5] bg-transparent pr-[3vw]'
+          }
+        `}
             />
             <IconButton
                 onClick={handleSend}
                 disabled={!value.trim()}
-                className={`!absolute !right-1
-                    transition-transform duration-150 p-[0.208vw] w-[1.8vw] h-[1.8vw] ${isPressed ? 'scale-90' : 'scale-120'} hover:bg-gray-100 rounded-full`}
+                className={`
+          ${isMobile ? 'w-[6.1vw] h-[6.1vw]' : 'absolute right-1 w-[1.8vw] h-[1.8vw]'}
+          transition-transform duration-150 
+          ${isPressed ? 'scale-90' : 'scale-100'} 
+          hover:bg-gray-100 rounded-full p-0 flex items-center justify-center
+        `}
             >
-                <SendIcon className="!w-full !h-full" />
+                <SendIcon
+                    className={isMobile ? 'w-[6.1vw] h-[6.1vw] text-[#002D49]' : '!w-full !h-full'}
+                />
             </IconButton>
         </Box>
     );

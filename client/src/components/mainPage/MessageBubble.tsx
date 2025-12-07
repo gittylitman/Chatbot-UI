@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm';
 
 import { Message } from '../../interfaces/Message';
 import TypingIndicator from './TypingIndicator';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 interface MessageBubbleProps {
     msg: Message;
@@ -15,6 +16,7 @@ interface MessageBubbleProps {
 
 const MessageBubble: React.FC<MessageBubbleProps> = ({ msg }) => {
     const copiedRef = useRef<HTMLDivElement>(null);
+    const isMobile = useIsMobile();
 
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
@@ -31,9 +33,11 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ msg }) => {
 
     return (
         <Box
-            className={`relative inline-block max-w-[70%] p-[0.6vw] rounded-[1vw] self-start text-left
-        ${msg.role === 'user' ? 'bg-[#F5F6F7] text-gray-900' : 'bg-white'}
-      `}
+            className={`relative inline-block break-words text-left self-start ${
+                isMobile
+                    ? 'max-w-[80%] p-[2vw] rounded-[3vw]'
+                    : 'max-w-[70%] p-[0.6vw] rounded-[1vw]'
+            } ${msg.role === 'user' ? 'bg-[#F5F6F7] text-gray-900' : 'bg-white'}`}
         >
             {msg.action === 'typing' ? (
                 <TypingIndicator />
